@@ -33,10 +33,7 @@ Submit Your Game: Upload your game files and provide necessary details (game tit
 Review Process: Submitted games will go through a review process before being published on the platform.
 Community Feedback: Get feedback from the community and make updates to your game as needed.
 Contributing:
-Contributions are welcome! (Please read the CONTRIBUTING.md file for more information on how to get involved.)
-
-License:
-This project is licensed under the MIT License. See the LICENSE file for details.
+Contributions are welcome!
 
 Contact:
 For any questions or suggestions, feel free to open an issue or contact the project maintainers at (sleeplessplay@outlook.com)
