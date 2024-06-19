@@ -13,6 +13,7 @@ dbConnect();
 
 app.use(express.json(), cors());
 app.use('/api', router);
+app.use('/users', router);
 
 
 // Middleware to handle route paths that are not found

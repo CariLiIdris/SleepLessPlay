@@ -1,13 +1,5 @@
 import { model, Schema } from "mongoose";
-
-const bcrypt = require('bcrypt');
-UserSchema.pre('save', function (next) {
-  bcrypt.hash(this.password, 10)
-    .then(hash => {
-      this.password = hash;
-      next();
-    });
-});
+import bcrypt from 'bcrypt';
 
 const UserSchema = new Schema({
   username: {
@@ -41,15 +33,25 @@ const UserSchema = new Schema({
     required: [true, "A password is required!"],
     minLength: [8, "Password must be 8 or more characters!"]
   }
-}, {timestamps: true});
-
-const User = model('User', UserSchema);
-export default User;
+}, { timestamps: true });
 
 // Compare & Confirm passwords
 UserSchema.virtual('confirmPassword')
-  .get(() => this._confirmPassword)
-  .set(value => this._confirmPassword = value);
+  .get(function() {
+    return this._confirmPassword;
+  })
+  .set(function(value) {
+    this._confirmPassword = value;
+  });
+
+// Hash PSWD before saving
+UserSchema.pre('save', function (next) {
+  bcrypt.hash(this.password, 10)
+    .then(hash => {
+      this.password = hash;
+      next();
+    });
+});
 
 UserSchema.pre('validate', function (next) {
   if (this.password !== this.confirmPassword) {
@@ -58,3 +60,5 @@ UserSchema.pre('validate', function (next) {
   next();
 });
 
+const User = model('User', UserSchema);
+export default User;
