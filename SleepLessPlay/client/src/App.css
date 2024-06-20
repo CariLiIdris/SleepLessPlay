@@ -1,0 +1,26 @@
+/* Reset Css */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar Style */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+.navSearch {
+    display: flex;
+}
+
+/* NavLogo Style */
+.navLogo {
+    width: 5%;
+}
+
+/* Home Page Style */
+.ctaSignUp {
+    text-align: center;
+}
