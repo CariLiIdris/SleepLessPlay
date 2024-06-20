@@ -36,7 +36,7 @@ export const Navbar = () => {
                 <button
                     className='navLink'
                 >
-                    <Link to={'/'}>Logout</Link>
+                    <Link to={'/users/login'}>Logout</Link>
                 </button>
             </div>
         </div>

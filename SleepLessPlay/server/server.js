@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import router from './routes/user.routes.js';
 import dbConnect  from './config/mongoose.config.js';
+import cookieParser from 'cookie-parser';
 
 const app = express();
 const PORT = process.env.PORT;
@@ -11,7 +12,8 @@ dotenv.config();
 
 dbConnect();
 
-app.use(express.json(), cors());
+app.use(express.json(), cors({ credentials: true, origin: 'http://localhost:8002' }));
+app.use(cookieParser());
 app.use('/api', router);
 app.use('/users', router);
 

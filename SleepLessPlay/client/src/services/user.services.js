@@ -1,4 +1,6 @@
 import axios from 'axios';
+import User from '../../../server/models/user.model';
+import jwt from 'jsonwebtoken'
 
 const USER_INSTANCE = axios.create({
     baseURL: "http://localhost:8002/users"
@@ -11,6 +13,13 @@ export const createUser = async userData => {
     }
     catch (err) { throw err }
 }
+
+export const registerUser = async userData => {
+    try {
+        const res = await USER_INSTANCE.post('/register', userData);
+        return res.data
+    } catch (err) { throw err }
+};
 
 export const getUserByID = async id => {
     try {
