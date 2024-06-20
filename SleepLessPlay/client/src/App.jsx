@@ -13,6 +13,7 @@ function App() {
       <Routes>
         <Route path='/' element={ <Home /> } />
         <Route path='/users/signup' element={<UserForm submitFunction={createUser} /> } />
+        <Route path='/users/login' element={<UserForm submitFunction={createUser} />} />
       </Routes>
     </>
   )
