@@ -1,6 +1,4 @@
-import axios from 'axios';
-import User from '../../../server/models/user.model';
-import jwt from 'jsonwebtoken'
+import axios from 'axios'
 
 const USER_INSTANCE = axios.create({
     baseURL: "http://localhost:8002/users"
@@ -8,18 +6,29 @@ const USER_INSTANCE = axios.create({
 
 export const createUser = async userData => {
     try {
-        const res = await USER_INSTANCE.post('/users', userData) //userData is the body of our res
+        const res = await USER_INSTANCE.post('/users', userData, { withCredentials: true }) //userData is the body of our res
+        console.log(res.data)
         return res.data
     }
     catch (err) { throw err }
 }
 
-export const registerUser = async userData => {
+export const login = async activeUserData => {
     try {
-        const res = await USER_INSTANCE.post('/register', userData);
+        const res = await USER_INSTANCE.post('/users/login', activeUserData, { withCredentials: true })
+        console.log(res.data)
         return res.data
-    } catch (err) { throw err }
-};
+    }
+    catch (err) { throw err }
+}
+export const logout = async () => {
+    try {
+        const res = await USER_INSTANCE.post('/users/logout', {}, { withCredentials: true })
+        console.log(res.data)
+        return res.data
+    }
+    catch (err) { throw err }
+}
 
 export const getUserByID = async id => {
     try {

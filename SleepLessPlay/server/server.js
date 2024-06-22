@@ -12,8 +12,8 @@ dotenv.config();
 
 dbConnect();
 
-app.use(express.json(), cors({ credentials: true, origin: 'http://localhost:8002' }));
-app.use(cookieParser());
+app.use(express.json(), cors({ origin: 'http://localhost:5173', credentials:true }));
+app.use(cookieParser(process.env.SECRET_KEY));
 app.use('/api', router);
 app.use('/users', router);
 

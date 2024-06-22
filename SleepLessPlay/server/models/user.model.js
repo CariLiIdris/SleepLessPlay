@@ -1,5 +1,7 @@
 import { model, Schema } from "mongoose";
 import bcrypt from 'bcrypt';
+import mongooseUniqueValidator from "mongoose-unique-validator";
+import validator from 'validator'
 
 const UserSchema = new Schema({
   username: {
@@ -7,6 +9,7 @@ const UserSchema = new Schema({
     required: [true, "A username is required!"],
     minLength: [3, "Username must be 3 or more characters!"],
     maxLength: [255, "Username must not exceed 255 characters!"],
+    unique: [true, 'That username is already taken']
   },
   fName: {
     type: String,
@@ -23,6 +26,7 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: [true, "An email is required!"],
+    unique: [true, 'That email already exists!'],
     validate: {
       validator: (val) => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
       message: "Please enter a valid email",
@@ -59,6 +63,8 @@ UserSchema.pre('validate', function (next) {
   }
   next();
 });
+
+UserSchema.plugin(mongooseUniqueValidator);
 
 const User = model('User', UserSchema);
 export default User;

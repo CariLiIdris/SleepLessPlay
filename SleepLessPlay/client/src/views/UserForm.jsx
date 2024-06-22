@@ -100,7 +100,7 @@ export const UserForm = ({ submitFunction }) => {
         }
         if (className === 'password') {
             if (value.length === 0) {
-                errormsg = 'A first name is required!';
+                errormsg = 'A password is required!';
             } else if (value.length < 8) {
                 errormsg = 'Password must be 8 or more characters!';
             }

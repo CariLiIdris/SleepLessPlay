@@ -1,11 +1,16 @@
 import User from "../models/user.model.js"
-import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
 // C
 export const createUser = async (req, res, next) => {
     try {
         const USER = await User.create(req.body)
+        const userToken = jwt.sign({
+            userId: USER._id, username: USER.username
+        }, process.env.SECRET_KEY)
+        console.log(userToken);
+        res.cookie('userToken', userToken)
         res.status(200).json({ msg: 'success!', user: USER })
     }
     catch (err) {
@@ -13,45 +18,6 @@ export const createUser = async (req, res, next) => {
         res.status(400).json(err)
         next(err)
     }
-}
-// Register User
-export const register = async (req, res, next) => {
-    User.create(req.body)
-        .then(user => {
-            const userToken = jwt.sign({
-                id: user._id
-            }, process.env.SECRET_KEY);
-
-            res
-                .cookie('usertoken', userToken, secret, {
-                    httpOnly: true
-                })
-                .json({ msg: 'success!', user: user })
-        })
-        .catch(err => res.json(err));
-}
-export const login = async (req, res, next) => {
-    const user = await User.findOne({ email: req.body.email });
-
-    if (user === null) {
-        return res.Status(400);
-    }
-
-    const correctPassword = await bcrypt.compare(req.body.password, user.password);
-
-    if (!correctPassword) {
-        return res.Status(400);
-    }
-
-    const userToken = jwt.sign({
-        id: user._id
-    }, process.env.SECRET_KEY);
-
-    res
-        .cookie('usertoken', userToken, secret, {
-            httpOnly: true
-        })
-        .json({ msg: 'success!' })
 }
 
 // R
@@ -108,5 +74,42 @@ export const deleteUserByID = async (req, res, next) => {
         console.log(err);
         res.status(400).json(err);
         next(err)
+    }
+}
+
+// Logout
+export const logout = async (req, res, next) => {
+    res.clearCookie('userToken')
+    return res.status(200).json({ message: 'Successfully Logged Out!' })
+}
+
+export const login = async (req, res, next) => {
+    const {emailOrUsername, password} = req.body
+    try {
+        const possibleUser = await User.findOne({
+            $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
+        });
+
+        if (!possibleUser) {
+            return res.status(404).json({ msg: 'User not found' });
+        }
+
+        const isCorrectPassword = await bcrypt.compare(password, possibleUser.password);
+        if (!isCorrectPassword) {
+            return res.status(404).json({ msg: 'Invalid credentials' });
+        }
+
+        const userToken = jwt.sign(
+            {
+                userId: possibleUser._id,
+                username: possibleUser.username
+            },
+            process.env.SECRET_KEY
+        );
+
+        res.cookie('userToken', userToken);
+        return res.status(200).json(possibleUser);
+    } catch (error) {
+        return res.status(500).json({ msg: 'Server error' });
     }
 }
