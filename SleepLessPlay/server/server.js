@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import router from './routes/user.routes.js';
+import loungeRouter from './routes/lounge.routes.js'
 import dbConnect  from './config/mongoose.config.js';
 import cookieParser from 'cookie-parser';
 
@@ -16,11 +17,13 @@ app.use(express.json(), cors({ origin: 'http://localhost:5173', credentials:true
 app.use(cookieParser(process.env.SECRET_KEY));
 app.use('/api', router);
 app.use('/users', router);
+app.use('/api', loungeRouter);
+app.use('/lounges', loungeRouter);
 
 
 // Middleware to handle route paths that are not found
 app.use((req, res, next) => {
-    // const err = new Error(`Not Found`);
+    const err = new Error(`Not Found`);
     err.statusCode = 404;
     err.name = `Not Found`;
     next(err);

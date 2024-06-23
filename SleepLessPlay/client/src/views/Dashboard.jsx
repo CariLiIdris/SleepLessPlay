@@ -63,7 +63,7 @@ export const Dashboard = () => {
                             <img src={friends} alt="" />
                         </Link>
                         <Link
-                            to={`/user/${user?._id}/update`}
+                            to={`/user/${user?.username}`}
                             className="profileLink"
                         >
                             <img src={profile} alt="" />
@@ -90,10 +90,22 @@ export const Dashboard = () => {
             </div>
             <div className="lowerDashContainer">
                 <div className="dashGames">
-
+                    <p>Games</p>
+                    <Link
+                        to={'/'}
+                        className="gameLink"
+                    >
+                        <img src={followIcon} alt="Follow Link Icon" />
+                    </Link>
                 </div>
                 <div className="dashLounges">
-
+                    <p>Lounges</p>
+                    <Link
+                        to={'/lounges'}
+                        className="loungeLink"
+                    >
+                        <img src={followIcon} alt="Follow Link Icon" />
+                    </Link>
                 </div>
             </div>
         </>

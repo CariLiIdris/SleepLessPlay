@@ -44,7 +44,14 @@ export const Navbar = ({ submitFunction }) => {
             <img 
             src={logo} 
             alt="SleepLessPlay Brand Logo" className='navLogo' 
-            onClick={()=> navigate('/')}/>
+            onClick={()=> {
+                isLoggedIn ? (
+                    navigate('/dashboard')
+                )
+                : (
+                    navigate('/')
+                )
+            }}/>
             {/* Nav links */}
             <div className="actionLinks">
                 {/* Button to direct to game page */}

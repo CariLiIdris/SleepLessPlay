@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom'
 import { getUserByID } from "../services/user.services"
 import { userContext } from "../context/userContext"
+import { Link } from "react-router-dom"
 
 export const ProfileForm = ({ submitFunction }) => {
     const { id } = useParams()
@@ -202,6 +203,7 @@ export const ProfileForm = ({ submitFunction }) => {
                 >
                     Edit
                 </button>
+                <Link to={`/user/${user.username}`} > Cancel </Link>
             </form>
         </>
     )

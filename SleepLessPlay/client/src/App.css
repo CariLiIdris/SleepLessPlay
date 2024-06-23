@@ -2,6 +2,11 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: 'Font211';
+}
+
+input {
+    font-family: 'Bitcell';
 }
 
 /* Navbar Style */
@@ -59,4 +64,32 @@
 .upperLeaderboard {
     display: flex;
     justify-content: space-between;
+}
+
+/* Social Bar Style */
+.socialBarGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    justify-content: space-between;
+    text-align: center;
+    margin: 15px;
+}
+
+.socialBarLinks {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.socialBarLinks img {
+    width: 70%;
+    height: auto;
+}
+
+/* Profile Page Style */
+.profileContent {
+    display: flex;
+    gap: 15px;
+    justify-content: space-around;
 }

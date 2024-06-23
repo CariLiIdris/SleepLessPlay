@@ -2,6 +2,7 @@ import { useState, useContext } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { userContext } from "../context/userContext"
+import { Link } from "react-router-dom"
 
 export const LoginForm = ({ submitFunction }) => {
     const { user, setUser, storeIdInLocalStorage } = useContext(userContext)
@@ -105,6 +106,7 @@ export const LoginForm = ({ submitFunction }) => {
                 >
                     Login
                 </button>
+                <Link to={'/signup'} >Don't have an account? Sign Up!</Link>
             </form>
         </>
     )

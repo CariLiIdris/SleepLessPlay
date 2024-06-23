@@ -7,6 +7,7 @@ import { createUser, login, logout, updateUserByID } from './services/user.servi
 import { LoginForm } from './views/LoginForm'
 import { Dashboard } from './views/Dashboard'
 import { ProfileForm } from './views/ProfileForm'
+import { UserProfile } from './views/UserProfile'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
         <Route path='/users/login' element={<LoginForm submitFunction={login} />} />
         <Route path='/dashboard' element={ <Dashboard /> } />
         <Route path='/user/:id/update' element={<ProfileForm submitFunction={updateUserByID} /> } />
+        <Route path='/user/:username' element={ <UserProfile /> } />
       </Routes>
     </>
   )
