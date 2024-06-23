@@ -1,4 +1,6 @@
 import { model, Schema } from "mongoose";
+import bcrypt from 'bcrypt';
+import mongooseUniqueValidator from "mongoose-unique-validator";
 
 const UserSchema = new Schema({
   username: {
@@ -6,6 +8,7 @@ const UserSchema = new Schema({
     required: [true, "A username is required!"],
     minLength: [3, "Username must be 3 or more characters!"],
     maxLength: [255, "Username must not exceed 255 characters!"],
+    unique: [true, 'That username is already taken']
   },
   fName: {
     type: String,
@@ -22,6 +25,7 @@ const UserSchema = new Schema({
   email: {
     type: String,
     required: [true, "An email is required!"],
+    unique: [true, 'That email already exists!'],
     validate: {
       validator: (val) => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
       message: "Please enter a valid email",
@@ -31,8 +35,39 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "A password is required!"],
     minLength: [8, "Password must be 8 or more characters!"]
+  },
+  userIcon: {
+    data: Buffer,
+    contentType: String
   }
-}, {timestamps: true});
+}, { timestamps: true });
+
+// Compare & Confirm passwords
+UserSchema.virtual('confirmPassword')
+  .get(function() {
+    return this._confirmPassword;
+  })
+  .set(function(value) {
+    this._confirmPassword = value;
+  });
+
+// Hash PSWD before saving
+UserSchema.pre('save', function (next) {
+  bcrypt.hash(this.password, 10)
+    .then(hash => {
+      this.password = hash;
+      next();
+    });
+});
+
+UserSchema.pre('validate', function (next) {
+  if (this.password !== this.confirmPassword) {
+    this.invalidate('confirmPassword', 'Password must match confirm password');
+  }
+  next();
+});
+
+UserSchema.plugin(mongooseUniqueValidator);
 
 const User = model('User', UserSchema);
 export default User;
