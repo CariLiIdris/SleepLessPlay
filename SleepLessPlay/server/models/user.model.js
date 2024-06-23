@@ -1,7 +1,6 @@
 import { model, Schema } from "mongoose";
 import bcrypt from 'bcrypt';
 import mongooseUniqueValidator from "mongoose-unique-validator";
-import validator from 'validator'
 
 const UserSchema = new Schema({
   username: {
@@ -36,6 +35,10 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "A password is required!"],
     minLength: [8, "Password must be 8 or more characters!"]
+  },
+  userIcon: {
+    data: Buffer,
+    contentType: String
   }
 }, { timestamps: true });
 

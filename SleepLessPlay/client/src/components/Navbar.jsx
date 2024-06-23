@@ -22,6 +22,7 @@ export const Navbar = ({ submitFunction }) => {
         .then(() => {
             Cookies.remove('userToken');
             setIsLoggedIn(false);
+            window.localStorage.removeItem('Logged in user id')
             navigate('/users/login');
         })
     };

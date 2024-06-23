@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useContext } from "react"
 import {
-    useParams,
     useNavigate
 } from 'react-router-dom'
 import { getUserByID } from "../services/user.services"
+import { userContext } from "../context/userContext"
 
 export const UserForm = ({ submitFunction }) => {
-    const { id } = useParams()
+    const { user, setUser, storeIdInLocalStorage } = useContext(userContext)
     // useState to for two way binding
     const [userData, setUserData] = useState({
         username: '',
@@ -31,20 +31,18 @@ export const UserForm = ({ submitFunction }) => {
 
     //Nav Shorthand
     const navigate = useNavigate();
-    // When editing, the form should autofill
-    useEffect(() => {
-        getUserByID(id)
-            .then(res => {
-                setUserData(res)
-            })
-    }, [id])
 
     // Handle our submit
     const submitHandler = e => {
         e.preventDefault();
 
         submitFunction(userData)
-            .then(() => navigate("/"))
+            .then((res) => {
+                navigate("/dashboard")
+                setUser(res)
+                // console.log( 'userform``````` Res:' ,res)
+                storeIdInLocalStorage(res.user._id)
+            })
             .catch(error => setUserErr(error.response.data))
     }
 
@@ -54,7 +52,7 @@ export const UserForm = ({ submitFunction }) => {
     }
 
     const updateUserData = e => {
-        const { className, value, type } = e.target;
+        const { className, value } = e.target;
         let errormsg = '';
         setUserData(prev => ({
             ...prev,

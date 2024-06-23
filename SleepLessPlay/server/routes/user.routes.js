@@ -6,21 +6,23 @@ import {
     updateUserByID,
     deleteUserByID,
     logout,
-    login
+    login,
+    upload
 } from "../controllers/user.controller.js"
 import { authenticate } from '../config/jwt.config.js'
 
 const router = Router()
 
 router.route('/users')
-    .post( createUser )
-    .get( authenticate, getAllUsers )
+    .post(createUser)
+    .get(authenticate, getAllUsers)
 router.route('/users/:id')
-    .get( getUserByID )
-    .put( updateUserByID )
-    .delete( deleteUserByID )
+    .get(getUserByID)
+    .delete(deleteUserByID)
+router.route('/user/:id/update')
+    .put(updateUserByID)
 router.route('/users/logout')
-    .post( logout )
+    .post(logout)
 router.route('/users/login')
-    .post( login )
+    .post(login)
 export default router

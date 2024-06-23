@@ -1,6 +1,19 @@
 import User from "../models/user.model.js"
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+import multer from 'multer'
+
+// Storage
+const Storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'imageUploads')
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + '-' + file.originalname)
+    }
+})
+
+export const upload = multer({ storage: Storage })
 
 // C
 export const createUser = async (req, res, next) => {
@@ -46,6 +59,19 @@ export const getUserByID = async (req, res, next) => {
     }
 }
 
+export const getUserByUsername = async (req, res, next) => {
+    const { username } = req.params
+    try {
+        const FOUNDUSER = await User.findOne(username);
+        res.status(200).json(FOUNDUSER);
+    }
+    catch (err) {
+        console.log(err);
+        res.status(400).json(err)
+        next(err)
+    }
+}
+
 // U
 export const updateUserByID = async (req, res, next) => {
     const options = {
@@ -53,7 +79,10 @@ export const updateUserByID = async (req, res, next) => {
         runValidators: true,
     };
     try {
-        const UPDATED_USER = await User.findByIdAndUpdate(req.params.id, req.body, options);
+        const updateData = { ...req.body }
+        delete updateData._id
+
+        const UPDATED_USER = await User.findByIdAndUpdate(req.params.id, updateData, options);
         res.status(200).json(UPDATED_USER);
     }
     catch (err) {
@@ -84,11 +113,9 @@ export const logout = async (req, res, next) => {
 }
 
 export const login = async (req, res, next) => {
-    const {emailOrUsername, password} = req.body
+    const {username, password} = req.body
     try {
-        const possibleUser = await User.findOne({
-            $or: [{ email: emailOrUsername }, { username: emailOrUsername }]
-        });
+        const possibleUser = await User.findOne({ username: username });
 
         if (!possibleUser) {
             return res.status(404).json({ msg: 'User not found' });
@@ -111,5 +138,20 @@ export const login = async (req, res, next) => {
         return res.status(200).json(possibleUser);
     } catch (error) {
         return res.status(500).json({ msg: 'Server error' });
+    }
+}
+
+export const getUserInfoFromToken = () => {
+    const token = Cookies.get('userToken');
+    if(!token) {
+        return null;
+    }
+
+    try {
+        const userData = jwt.decode(token);
+        return userData
+    } catch (error) {
+        console.log('Invalid token', error)
+        return null;
     }
 }

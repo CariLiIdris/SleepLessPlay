@@ -1,17 +1,19 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { userContext } from "../context/userContext"
 
 export const LoginForm = ({ submitFunction }) => {
+    const { user, setUser, storeIdInLocalStorage } = useContext(userContext)
     const [activeUserData, setActiveUserData] = useState({
-        emailOrUsername: '',
+        username: '',
         password: ''
     })
     // Server Errors
     const [activeUserErr, setActiveUserErr] = useState({})
     // Client Errors
     const [formErrors, setFormErrors] = useState({
-        emailOrUsername: 'An email or Username is required!',
+        username: 'A Username is required!',
         password: 'A password is required!'
     })
 
@@ -21,7 +23,12 @@ export const LoginForm = ({ submitFunction }) => {
         e.preventDefault();
         
         submitFunction(activeUserData)
-        .then(() => navigate('/dashboard'))
+        .then((res) => {
+            console.log(res)
+            setUser(res)
+            storeIdInLocalStorage(res._id)
+            navigate('/dashboard')
+        })
         // .then(console.log(activeUserData))
         .catch(error => setActiveUserErr(error.response.data))
     }
@@ -32,7 +39,7 @@ export const LoginForm = ({ submitFunction }) => {
     }
 
     const updateActiveUserData = e => {
-        const { className, value, type } = e.target;
+        const { className, value } = e.target;
         let errormsg = '';
         setActiveUserData(prev => ({
             ...prev,
@@ -40,7 +47,7 @@ export const LoginForm = ({ submitFunction }) => {
         }
         ))
 
-        if (className === 'emailOrUsername') {
+        if (className === 'username') {
             if (value.length === 0) {
                 errormsg = 'An email or username is required!';
             } else if (value.length < 3) {
@@ -48,7 +55,7 @@ export const LoginForm = ({ submitFunction }) => {
             } else if (value.length > 255) {
                 errormsg = 'This field must not exceed 255 characters!'
             }
-            setFormErrors(prev => ({ ...prev, emailOrUsername: errormsg }));
+            setFormErrors(prev => ({ ...prev, username: errormsg }));
         }
         if (className === 'password') {
             if (value.length === 0) {
@@ -63,21 +70,21 @@ export const LoginForm = ({ submitFunction }) => {
     return (
         <>
             <form onSubmit={submitHandler}>
-                {/* Email or User input */}
+                {/* User input */}
                 <p>{ activeUserErr.validationErrors?.msg }</p>
                 <label>
-                    Email or Username:
+                    Username:
                     <input
                         type="text"
-                        className="emailOrUsername"
-                        value={activeUserData.emailOrUsername}
+                        className="username"
+                        value={activeUserData.username}
                         onChange={updateActiveUserData}
                     />
                 </label>
                 {/* Backend Validations */}
-                <p> {activeUserErr.validationErrors?.emailOrUsername} </p>
+                <p> {activeUserErr.validationErrors?.username} </p>
                 {/* Frontend Validations */}
-                <p> {formErrors?.emailOrUsername} </p>
+                <p> {formErrors?.username} </p>
                 <label>
                     {/* Password Input */}
                     <input

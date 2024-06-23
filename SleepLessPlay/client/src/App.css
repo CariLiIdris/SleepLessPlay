@@ -25,3 +25,38 @@
 .ctaSignUp {
     text-align: center;
 }
+
+/* Dashboard Styles */
+.upperDashContainer {
+    display: flex;
+    justify-content: space-around;
+}
+
+.socials {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.upperSocial {
+    display: flex;
+    justify-content: space-between;
+}
+
+.lowerSocial {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.leaderboards {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.upperLeaderboard {
+    display: flex;
+    justify-content: space-between;
+}
