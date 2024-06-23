@@ -9,7 +9,7 @@ const dbConnect = async() => {
         await connect(MONGODB_URI, {
             dbName: 'SleepLessPlay',
         });
-        console.log('Pinged your deployment. You successfullt connected to MongoDB!');
+        console.log('Pinged your deployment. You successfully connected to MongoDB!');
     }
     catch (err) {
         console.log(`DB Connection Failed: Error ----> ${err}`);
