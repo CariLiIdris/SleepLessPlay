@@ -8,19 +8,71 @@ import { LoginForm } from './views/LoginForm'
 import { Dashboard } from './views/Dashboard'
 import { ProfileForm } from './views/ProfileForm'
 import { UserProfile } from './views/UserProfile'
+import { Lounges } from './views/Lounges'
+import { LoungeForm } from './views/LoungeForm'
+import { createLounge, updateLoungeByID } from './services/lounge.services'
+import { LoungeDisplay } from './views/LoungeDisplay'
 
 function App() {
 
   return (
     <>
       <Navbar submitFunction={logout} />
+
       <Routes>
-        <Route path='/' element={ <Home /> } />
-        <Route path='/signup' element={<UserForm submitFunction={createUser} /> } />
-        <Route path='/users/login' element={<LoginForm submitFunction={login} />} />
-        <Route path='/dashboard' element={ <Dashboard /> } />
-        <Route path='/user/:id/update' element={<ProfileForm submitFunction={updateUserByID} /> } />
-        <Route path='/user/:username' element={ <UserProfile /> } />
+        <Route
+          path='/'
+          element={<Home />}
+        />
+
+        <Route
+          path='/signup'
+          element={<UserForm
+            submitFunction={createUser} />}
+        />
+
+        <Route
+          path='/users/login'
+          element={<LoginForm
+            submitFunction={login}
+          />} />
+
+        <Route
+          path='/dashboard'
+          element={<Dashboard />}
+        />
+
+        <Route
+          path='/user/:id/update'
+          element={<ProfileForm
+            submitFunction={updateUserByID} />}
+        />
+
+        <Route
+          path='/user/:username'
+          element={<UserProfile />}
+        />
+
+        <Route
+          path='/lounges'
+          element={<Lounges />}
+        />
+
+        <Route
+          path='/lounge/create'
+          element={<LoungeForm
+            submitFunction={createLounge} />}
+        />
+
+        <Route
+          path='/lounges/:id'
+          element={<LoungeDisplay />}
+        />
+        <Route
+          path='/lounge/:id/edit'
+          element={<LoungeForm
+            submitFunction={updateLoungeByID} />}
+        />
       </Routes>
     </>
   )

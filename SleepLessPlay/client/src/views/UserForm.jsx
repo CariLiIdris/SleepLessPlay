@@ -1,10 +1,11 @@
-import { useEffect, useState, useContext } from "react"
+/* eslint-disable no-unused-vars */
+import { useState, useContext } from "react"
 import {
     useNavigate
 } from 'react-router-dom'
-import { getUserByID } from "../services/user.services"
 import { userContext } from "../context/userContext"
 
+// eslint-disable-next-line react/prop-types
 export const UserForm = ({ submitFunction }) => {
     const { user, setUser, storeIdInLocalStorage } = useContext(userContext)
     // useState to for two way binding
@@ -40,10 +41,13 @@ export const UserForm = ({ submitFunction }) => {
             .then((res) => {
                 navigate("/dashboard")
                 setUser(res)
-                // console.log( 'userform``````` Res:' ,res)
+                console.log( 'userform``````` Res:' ,res)
                 storeIdInLocalStorage(res.user._id)
             })
-            .catch(error => setUserErr(error.response.data))
+            .catch(error => {
+                console.log(error)
+                setUserErr(error.response.data)
+            })
     }
 
     // Validations for front-end
@@ -128,7 +132,7 @@ export const UserForm = ({ submitFunction }) => {
                     />
                 </label>
                 {/* Backend Validations */}
-                <p> {userErr.validationErrors?.username} </p>
+                <p> {userErr?.validationErrors?.username} </p>
                 {/* Frontend Validations */}
                 <p> {formErrors?.username} </p>
                 {/* FName Input */}

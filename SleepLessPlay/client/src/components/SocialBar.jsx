@@ -5,10 +5,10 @@ import friends from '../assets/images/friends.png'
 import profile from '../assets/images/profile.png'
 import { Link } from "react-router-dom"
 import { userContext } from "../context/userContext"
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 
 export const SocialBar = () => {
-    const { user, setUser } = useContext(userContext)
+    const { user } = useContext(userContext)
 
     return(
         <>
@@ -41,7 +41,7 @@ export const SocialBar = () => {
                         <img src={friends} alt="" />
                     </Link>
                     <Link
-                        to={`/user/${user?._id}/update`}
+                        to={`/user/${user?.username}`}
                         className="profileLink socialBarLinks"
                     >
                         <img src={profile} alt="" />

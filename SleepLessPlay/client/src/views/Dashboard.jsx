@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom"
 import followIcon from '../assets/images/followLinkIcon.png'
 import settings from '../assets/images/settings.png'
@@ -13,16 +14,6 @@ export const Dashboard = () => {
     const { user, setUser } = useContext(userContext)
     const id = window.localStorage.getItem('Logged in user id')
 
-    useEffect(() => {
-        getUserByID(id)
-            .then((res) => {
-                setUser(res)
-            })
-            .catch((err) => {
-                console.log(err)
-            })
-    }, [])
-
     return (
         <>
             <p>Welcome {user?.username} </p>
@@ -30,7 +21,7 @@ export const Dashboard = () => {
                 <div className="socials">
                     <div className="upperSocial">
                         <p>Socials</p>
-                        <Link 
+                        <Link
                             to={'/'}
                             className="socialLink"
                         >

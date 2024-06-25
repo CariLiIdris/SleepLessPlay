@@ -1,3 +1,5 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
 import { useState, useContext } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
@@ -22,16 +24,16 @@ export const LoginForm = ({ submitFunction }) => {
 
     const submitHandler = e => {
         e.preventDefault();
-        
+
         submitFunction(activeUserData)
-        .then((res) => {
-            console.log(res)
-            setUser(res)
-            storeIdInLocalStorage(res._id)
-            navigate('/dashboard')
-        })
-        // .then(console.log(activeUserData))
-        .catch(error => setActiveUserErr(error.response.data))
+            .then((res) => {
+                console.log(res)
+                setUser(res)
+                storeIdInLocalStorage(res._id)
+                navigate('/dashboard')
+            })
+            // .then(console.log(activeUserData))
+            .catch(error => setActiveUserErr(error.response.data))
     }
 
     // Validations for front-end
@@ -72,7 +74,7 @@ export const LoginForm = ({ submitFunction }) => {
         <>
             <form onSubmit={submitHandler}>
                 {/* User input */}
-                <p>{ activeUserErr.validationErrors?.msg }</p>
+                <p>{activeUserErr.validationErrors?.msg}</p>
                 <label>
                     Username:
                     <input
@@ -106,7 +108,7 @@ export const LoginForm = ({ submitFunction }) => {
                 >
                     Login
                 </button>
-                <Link to={'/signup'} >Don't have an account? Sign Up!</Link>
+                <Link to={'/signup'} >Dont have an account? Sign Up!</Link>
             </form>
         </>
     )

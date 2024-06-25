@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-catch */
 import axios from 'axios'
 
 const USER_INSTANCE = axios.create({
@@ -18,7 +19,7 @@ export const createUser = async userData => {
 export const login = async activeUserData => {
     try {
         const res = await USER_INSTANCE.post('/users/login', activeUserData, { withCredentials: true })
-        console.log(res.data)
+        // console.log(res.data)
         return res.data
     }
     catch (err) { throw err }
@@ -59,20 +60,20 @@ export const getAllUsers = async () => {
     catch (err) { throw err }
 }
 
-// D
-export const deleteUserByID = async id => {
+// U
+export const updateUserByID = async userData => {
     try {
-        const res = await USER_INSTANCE.delete(`/users/${id}`)
+        const res = await USER_INSTANCE.put(`/user/${userData._id}/update`, userData)
+        // console.log( 'services``````Update' , res)
         return res.data
     }
     catch (err) { throw err }
 }
 
-// U
-export const updateUserByID = async userData => {
+// D
+export const deleteUserByID = async id => {
     try {
-        const res = await USER_INSTANCE.put(`/user/${userData._id}/update`, userData )
-        // console.log( 'services``````Update' , res)
+        const res = await USER_INSTANCE.delete(`/user/${id}/delete`)
         return res.data
     }
     catch (err) { throw err }

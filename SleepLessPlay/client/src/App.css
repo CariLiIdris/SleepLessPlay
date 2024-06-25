@@ -93,3 +93,14 @@ input {
     gap: 15px;
     justify-content: space-around;
 }
+
+/* Lounge Style */
+.loungePostForm {
+    display: flex;
+    justify-content: space-around;
+}
+
+.loungeContent {
+    display: flex;
+    justify-content: space-between;
+}

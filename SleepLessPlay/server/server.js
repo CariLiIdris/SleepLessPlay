@@ -3,7 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import router from './routes/user.routes.js';
 import loungeRouter from './routes/lounge.routes.js'
-import dbConnect  from './config/mongoose.config.js';
+import postRouter from './routes/post.routes.js';
+import dbConnect from './config/mongoose.config.js';
 import cookieParser from 'cookie-parser';
 
 const app = express();
@@ -13,12 +14,14 @@ dotenv.config();
 
 dbConnect();
 
-app.use(express.json(), cors({ origin: 'http://localhost:5173', credentials:true }));
+app.use(express.json(), cors({ origin: 'http://localhost:5173', credentials: true }));
 app.use(cookieParser(process.env.SECRET_KEY));
 app.use('/api', router);
-app.use('/users', router);
 app.use('/api', loungeRouter);
+app.use('/api', postRouter)
+app.use('/users', router);
 app.use('/lounges', loungeRouter);
+app.use('/posts', postRouter);
 
 
 // Middleware to handle route paths that are not found
@@ -30,7 +33,7 @@ app.use((req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    err.name === "ValidationError"? err.statusCode = 400 : ""
+    err.name === "ValidationError" ? err.statusCode = 400 : ""
     // console.log(err.errors)
 
     // Normalize the error

@@ -1,15 +1,15 @@
 import { model, Schema } from "mongoose";
 
 const PostSchema = new Schema({
-    lounge: {
-        type: Schema.Types.ObjectId,
-        ref: 'Lounge',
-        required: [true, 'A post must belong to a lounge!']
-    },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: [true, 'A post must have an author']
+    },
+    lounge: {
+        type: Schema.Types.ObjectId,
+        ref: 'Lounge',
+        required: [true, 'A post must belong to a lounge!']
     },
     content: {
         type: String,

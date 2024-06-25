@@ -24,7 +24,7 @@ export const createUser = async (req, res, next) => {
         }, process.env.SECRET_KEY)
         console.log(userToken);
         res.cookie('userToken', userToken)
-        res.status(200).json({ msg: 'success!', user: USER })
+        res.status(200).json({ errormsg: 'success!', user: USER })
     }
     catch (err) {
         console.log(err)
@@ -112,18 +112,19 @@ export const logout = async (req, res, next) => {
     return res.status(200).json({ message: 'Successfully Logged Out!' })
 }
 
+// Login
 export const login = async (req, res, next) => {
-    const {username, password} = req.body
+    const { username, password } = req.body
     try {
         const possibleUser = await User.findOne({ username: username });
 
         if (!possibleUser) {
-            return res.status(404).json({ msg: 'User not found' });
+            return res.status(404).json({ errormsg: 'User not found' });
         }
 
         const isCorrectPassword = await bcrypt.compare(password, possibleUser.password);
         if (!isCorrectPassword) {
-            return res.status(404).json({ msg: 'Invalid credentials' });
+            return res.status(404).json({ errormsg: 'Invalid credentials' });
         }
 
         const userToken = jwt.sign(
@@ -137,13 +138,14 @@ export const login = async (req, res, next) => {
         res.cookie('userToken', userToken);
         return res.status(200).json(possibleUser);
     } catch (error) {
-        return res.status(500).json({ msg: 'Server error' });
+        return res.status(500).json({ errormsg: 'Server error' });
     }
 }
 
+// Get user info from the userToken saved in 
 export const getUserInfoFromToken = () => {
     const token = Cookies.get('userToken');
-    if(!token) {
+    if (!token) {
         return null;
     }
 

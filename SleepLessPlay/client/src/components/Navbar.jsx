@@ -1,21 +1,22 @@
+/* eslint-disable no-unused-vars */
 import { Link } from 'react-router-dom'
 import logo from '../assets/images/SLPLOGO.png'
 import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
+import { userContext } from "../context/userContext"
 
+// eslint-disable-next-line react/prop-types
 export const Navbar = ({ submitFunction }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { user, storeIdInLocalStorage } = useContext(userContext)
 
     const navigate = useNavigate();
-    
-    const token = Cookies.get('userToken');
     useEffect(() => {
-        console.log('Token from cookie:', token)
-        if(token) {
+        if (user._id) {
             setIsLoggedIn(true)
         }
-    }, [token]);
+    }, [user._id]);
 
     const handleLogout = () => {
         submitFunction()
