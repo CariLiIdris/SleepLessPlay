@@ -38,10 +38,12 @@ export const LoungeForm = ({ submitFunction }) => {
   }, [user._id]);
 
   useEffect(() => {
-    getLoungeByID(id)
-      .then(res => {
-        setLoungedata(res)
-      })
+    if (id) (
+      getLoungeByID(id)
+        .then(res => {
+          setLoungedata(res)
+        })
+    )
   }, [id])
 
   // Handle our submit
@@ -96,58 +98,59 @@ export const LoungeForm = ({ submitFunction }) => {
 
   return (
     <>
-      Lounge Form
       {!isLoggedIn ? (
         <>
           <p>You must sign in to create a lounge!</p>
         </>
-      ) : (<form onSubmit={submitHandler}>
-        {/* Lounge Name */}
-        <label>
-          Lounge Name:
-          <input
-            type="text"
-            className="name"
-            value={loungeData.name}
-            onChange={updateLoungeData}
-          />
-        </label>
-        {/* Backend Validations */}
-        <p> {loungeErr?.validationErrors?.name} </p>
-        {/* Frontend Validations */}
-        <p> {formErrors?.name} </p>
-        {/* Lounge Description */}
-        <label>
-          Lounge Description:
-          <textarea
-            rows='8'
-            cols='50'
-            className="description"
-            value={loungeData.description}
-            onChange={updateLoungeData}
-          ></textarea>
-        </label>
-        {/* Backend Validations */}
-        <p> {loungeErr?.validationErrors?.description} </p>
-        {/* Frontend Validations */}
-        <p> {formErrors?.description} </p>
-        {/* Submit Bttn */}
-        <button
-          type="submit"
-          className="submitBttn"
-          disabled={!validateForm()}
-        >
-          {!id ? (
-            <>
-              Create Lounge
-            </>
-          ) : (
-            <>
-              Update Lounge
-            </>
-          )}
-        </button>
-      </form>)}
+      ) : (
+        <form onSubmit={submitHandler} className="loungeForm">
+          {/* Lounge Name */}
+          <label>
+            Lounge Name:
+            <input
+              type="text"
+              className="name"
+              value={loungeData.name}
+              onChange={updateLoungeData}
+            />
+          </label>
+          {/* Backend Validations */}
+          <p className="error"> {loungeErr?.validationErrors?.name} </p>
+          {/* Frontend Validations */}
+          <p className="error"> {formErrors?.name} </p>
+          {/* Lounge Description */}
+          <label>
+            Lounge Description:
+            <textarea
+              rows='8'
+              cols='50'
+              className="description"
+              value={loungeData.description}
+              onChange={updateLoungeData}
+            ></textarea>
+          </label>
+          {/* Backend Validations */}
+          <p className="error"> {loungeErr?.validationErrors?.description} </p>
+          {/* Frontend Validations */}
+          <p className="error"> {formErrors?.description} </p>
+          {/* Submit Bttn */}
+          <button
+            type="submit"
+            className="submitBttn"
+            disabled={!validateForm()}
+          >
+            {!id ? (
+              <>
+                Create Lounge
+              </>
+            ) : (
+              <>
+                Update Lounge
+              </>
+            )}
+          </button>
+        </form>
+      )}
     </>
   );
 };

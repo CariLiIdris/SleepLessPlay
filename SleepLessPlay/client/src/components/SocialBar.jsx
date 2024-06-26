@@ -10,44 +10,42 @@ import { useContext } from "react"
 export const SocialBar = () => {
     const { user } = useContext(userContext)
 
-    return(
-        <>
+    return (
         <div className="socialBarGroup">
-            <p>Social</p>
+            <p className="socialHead">SOCIALS</p>
 
             <div className="socialBarLinks">
-                    <Link
-                        to={'/'}
-                        className="settingsLink socialBarLinks"
-                    >
-                        <img src={settings} alt="" />
-                    </Link>
-                    <Link
-                        to={'/'}
-                        className="messagesLink socialBarLinks"
-                    >
-                        <img src={messages} alt="" />
-                    </Link>
-                    <Link
-                        to={'/'}
-                        className="trophyLink socialBarLinks"
-                    >
-                        <img src={trophy} alt="" />
-                    </Link>
-                    <Link
-                        to={'/'}
-                        className="friendsLink socialBarLinks"
-                    >
-                        <img src={friends} alt="" />
-                    </Link>
-                    <Link
-                        to={`/user/${user?.username}`}
-                        className="profileLink socialBarLinks"
-                    >
-                        <img src={profile} alt="" />
-                    </Link>
+                <Link
+                    to={'/'}
+                    className="settingsLink socialIconLink"
+                >
+                    <img src={settings} alt="Settings Icon" />
+                </Link>
+                <Link
+                    to={'/'}
+                    className="messagesLink socialIconLink"
+                >
+                    <img src={messages} alt="Messages Icon" />
+                </Link>
+                <Link
+                    to={'/'}
+                    className="trophyLink socialIconLink"
+                >
+                    <img src={trophy} alt="Trophy Icon" />
+                </Link>
+                <Link
+                    to={'/'}
+                    className="friendsLink socialIconLink"
+                >
+                    <img src={friends} alt="Friends Icon" />
+                </Link>
+                <Link
+                    to={`/user/${user?.username}`}
+                    className="profileLink socialIconLink"
+                >
+                    <img src={profile} alt="Profile Icon" />
+                </Link>
             </div>
         </div>
-        </>
     )
 }

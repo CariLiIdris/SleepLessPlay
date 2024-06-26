@@ -14,13 +14,13 @@ const UserSchema = new Schema({
     type: String,
     required: [true, "A first name is required!"],
     minLength: [2, "First name must be 2 or more characters!"],
-    maxLength: [255, "First name must not exceed 255 characters!"],
+    maxLength: [255, "First name must not exceed 255 characters!"]
   },
   lName: {
     type: String,
     required: [true, "A last name is required!"],
     minLength: [2, "Last name must be 2 or more characters!"],
-    maxLength: [255, "Last name must not exceed 255 characters!"],
+    maxLength: [255, "Last name must not exceed 255 characters!"]
   },
   email: {
     type: String,
@@ -36,6 +36,11 @@ const UserSchema = new Schema({
     required: [true, "A password is required!"],
     minLength: [8, "Password must be 8 or more characters!"]
   },
+  bio: {
+    type: String,
+    minLength: [, "A bio must have at least 2 character"],
+    maxLength: [255, "Last name must not exceed 255 characters!"]
+  },
   userIcon: {
     data: Buffer,
     contentType: String
@@ -44,10 +49,10 @@ const UserSchema = new Schema({
 
 // Compare & Confirm passwords
 UserSchema.virtual('confirmPassword')
-  .get(function() {
+  .get(function () {
     return this._confirmPassword;
   })
-  .set(function(value) {
+  .set(function (value) {
     this._confirmPassword = value;
   });
 

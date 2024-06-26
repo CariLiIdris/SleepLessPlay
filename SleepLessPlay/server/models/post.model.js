@@ -13,8 +13,8 @@ const PostSchema = new Schema({
     },
     content: {
         type: String,
-        required: [true, 'A post must have content'],
-        minLength: [1, 'A post must be 1 or more characters']
+        required: [true, 'A post must have content!'],
+        minLength: [1, 'A post must be 1 or more characters!']
     }
 }, { timestamps: true })
 

@@ -16,8 +16,7 @@ export const ProfileForm = ({ submitFunction }) => {
         fName: '',
         lName: '',
         email: '',
-        password: '',
-        confirmPassword: '',
+        bio: '',
         userIcon: ''
     })
 
@@ -29,8 +28,7 @@ export const ProfileForm = ({ submitFunction }) => {
         fName: '',
         lName: '',
         email: '',
-        password: '',
-        confirmPassword: ''
+        bio: ''
     })
 
     //Nav Shorthand
@@ -47,7 +45,7 @@ export const ProfileForm = ({ submitFunction }) => {
     const submitHandler = e => {
         e.preventDefault();
 
-        submitFunction( userData )
+        submitFunction(userData)
             .then((res) => {
                 // console.log('PF Submit UserData: ', userData, 'Res: ', res )
                 storeIdInLocalStorage(userData._id)
@@ -68,7 +66,7 @@ export const ProfileForm = ({ submitFunction }) => {
 
         setUserData(prev => ({
             ...prev,
-            [className]: files? files[0] : value
+            [className]: files ? files[0] : value
         }
         ))
 
@@ -108,34 +106,25 @@ export const ProfileForm = ({ submitFunction }) => {
             }
             setFormErrors(prev => ({ ...prev, email: errormsg }));
         }
-        if (className === 'password') {
-            if (value.length === 0) {
-                errormsg = 'A password is required!';
-            } else if (value.length < 8) {
-                errormsg = 'Password must be 8 or more characters!';
+        if (className === 'bio')
+            if (value.length > 0) {
+                if (value.length < 1) {
+                    errormsg = 'A Bio must be 8 or more characters!';
+                }
             }
-            setFormErrors(prev => ({ ...prev, password: errormsg }));
-        }
-        if (className === 'confirmPassword') {
-            if (value.length === 0) {
-                errormsg = 'Please confirm password!';
-            } else if (value !== userData.password) {
-                errormsg = 'Passwords must match!';
-            }
-            setFormErrors(prev => ({ ...prev, confirmPassword: errormsg }));
-        }
+        setFormErrors(prev => ({ ...prev, password: errormsg }));
     }
 
     return (
-        <>
-            <form onSubmit={submitHandler}>
+        <div className="profileFormContainer">
+            <form className="profileForm" onSubmit={submitHandler}>
                 {/* Profile Picture Input */}
                 <label>
                     User Icon:
                     <input
-                    type="file"
-                    className="userIcon"
-                    onChange={updateUserData}
+                        type="file"
+                        className="userIcon"
+                        onChange={updateUserData}
                     />
                 </label>
                 {/* Username Input */}
@@ -194,8 +183,18 @@ export const ProfileForm = ({ submitFunction }) => {
                 <p> {userErr.validationErrors?.email} </p>
                 {/* Frontend Validations */}
                 <p> {formErrors?.email} </p>
-                
-                {/* Submit Button  */}
+                <label>
+                    Bio:
+                    <textarea
+                        className="bio"
+                        cols="30"
+                        rows="5"
+                        value={userData.bio}
+                        onChange={updateUserData}
+                    ></textarea>
+                </label>
+
+                {/* Submit Button */}
                 <button
                     type="submit"
                     className="submitBttn"
@@ -203,8 +202,8 @@ export const ProfileForm = ({ submitFunction }) => {
                 >
                     Edit
                 </button>
-                <Link to={`/user/${user.username}`} > Cancel </Link>
+                <Link to={`/user/${user.username}`} className="cancelLink"> Cancel </Link>
             </form>
-        </>
+        </div>
     )
 }

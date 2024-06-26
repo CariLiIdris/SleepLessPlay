@@ -41,7 +41,7 @@ export const UserForm = ({ submitFunction }) => {
             .then((res) => {
                 navigate("/dashboard")
                 setUser(res)
-                console.log( 'userform``````` Res:' ,res)
+                console.log('userform``````` Res:', res)
                 storeIdInLocalStorage(res.user._id)
             })
             .catch(error => {
@@ -119,92 +119,104 @@ export const UserForm = ({ submitFunction }) => {
     }
 
     return (
-        <>
-            <form onSubmit={submitHandler}>
+        <div className="userFormContainer">
+            <form className="userForm" onSubmit={submitHandler}>
                 {/* Username Input */}
                 <label>
                     Username:
+                    {/* Backend Validations */}
+                    <p> {userErr?.validationErrors?.username} </p>
+                    {/* Frontend Validations */}
+                    <p> {formErrors?.username} </p>
                     <input
                         type="text"
                         className="username"
                         value={userData.username}
                         onChange={updateUserData}
+                        placeholder="Enter your username"
                     />
                 </label>
-                {/* Backend Validations */}
-                <p> {userErr?.validationErrors?.username} </p>
-                {/* Frontend Validations */}
-                <p> {formErrors?.username} </p>
+
                 {/* FName Input */}
                 <label>
                     First Name:
+                    {/* Backend Validations */}
+                    <p> {userErr.validationErrors?.fName} </p>
+                    {/* Frontend Validations */}
+                    <p> {formErrors?.fName} </p>
                     <input
                         type="text"
                         className="fName"
                         value={userData.fName}
                         onChange={updateUserData}
+                        placeholder="Enter your first name"
                     />
                 </label>
-                {/* Backend Validations */}
-                <p> {userErr.validationErrors?.fName} </p>
-                {/* Frontend Validations */}
-                <p> {formErrors?.fName} </p>
+
                 {/* LName Input */}
                 <label>
                     Last Name:
+                    {/* Backend Validations */}
+                    <p> {userErr.validationErrors?.lName} </p>
+                    {/* Frontend Validations */}
+                    <p> {formErrors?.lName} </p>
                     <input
                         type="text"
                         className="lName"
                         value={userData.lName}
                         onChange={updateUserData}
+                        placeholder="Enter your last name"
                     />
                 </label>
-                {/* Backend Validations */}
-                <p> {userErr.validationErrors?.lName} </p>
-                {/* Frontend Validations */}
-                <p> {formErrors?.lName} </p>
+
                 {/* Email Input */}
                 <label>
                     Email:
+                    {/* Backend Validations */}
+                    <p> {userErr.validationErrors?.email} </p>
+                    {/* Frontend Validations */}
+                    <p> {formErrors?.email} </p>
                     <input
                         type="text"
                         className="email"
                         value={userData.email}
                         onChange={updateUserData}
+                        placeholder="Enter your email"
                     />
                 </label>
-                {/* Backend Validations */}
-                <p> {userErr.validationErrors?.email} </p>
-                {/* Frontend Validations */}
-                <p> {formErrors?.email} </p>
+
                 {/* Password Input */}
                 <label>
                     Password:
+                    {/* Backend Validations */}
+                    <p> {userErr.validationErrors?.password} </p>
+                    {/* Frontend Validations */}
+                    <p> {formErrors?.password} </p>
                     <input
                         type="password"
                         className="password"
                         value={userData.password}
                         onChange={updateUserData}
+                        placeholder="Enter your password"
                     />
                 </label>
-                {/* Backend Validations */}
-                <p> {userErr.validationErrors?.password} </p>
-                {/* Frontend Validations */}
-                <p> {formErrors?.password} </p>
+
                 {/* Confirm Password */}
                 <label>
                     Confirm Password:
+                    {/* Backend Validations */}
+                    <p> {userErr.validationErrors?.confirmPassword} </p>
+                    {/* Frontend Validations */}
+                    <p> {formErrors?.confirmPassword} </p>
                     <input
                         type="password"
                         className="confirmPassword"
                         value={userData.confirmPassword}
                         onChange={updateUserData}
+                        placeholder="Confirm your password"
                     />
                 </label>
-                {/* Backend Validations */}
-                <p> {userErr.validationErrors?.confirmPassword} </p>
-                {/* Frontend Validations */}
-                <p> {formErrors?.confirmPassword} </p>
+
                 {/* Submit Button  */}
                 <button
                     type="submit"
@@ -214,6 +226,6 @@ export const UserForm = ({ submitFunction }) => {
                     Sign Up
                 </button>
             </form>
-        </>
+        </div>
     )
 }

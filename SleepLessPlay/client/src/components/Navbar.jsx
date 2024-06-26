@@ -20,12 +20,12 @@ export const Navbar = ({ submitFunction }) => {
 
     const handleLogout = () => {
         submitFunction()
-        .then(() => {
-            Cookies.remove('userToken');
-            setIsLoggedIn(false);
-            window.localStorage.removeItem('Logged in user id')
-            navigate('/users/login');
-        })
+            .then(() => {
+                Cookies.remove('userToken');
+                setIsLoggedIn(false);
+                window.localStorage.removeItem('Logged in user id')
+                navigate('/users/login');
+            })
     };
 
     return (
@@ -39,35 +39,40 @@ export const Navbar = ({ submitFunction }) => {
                         className="navSearch"
                     />
                 </label>
-                <button type="submit">Search</button>
+                <button type="submit" className='searchBttn'>Search</button>
             </form>
             {/* Brand Logo */}
-            <img 
-            src={logo} 
-            alt="SleepLessPlay Brand Logo" className='navLogo' 
-            onClick={()=> {
-                isLoggedIn ? (
-                    navigate('/dashboard')
-                )
-                : (
-                    navigate('/')
-                )
-            }}/>
+            <img
+                src={logo}
+                alt="SleepLessPlay Brand Logo" className='navLogo'
+                onClick={() => {
+                    isLoggedIn ? (
+                        navigate('/dashboard')
+                    )
+                        : (
+                            navigate('/')
+                        )
+                }} />
             {/* Nav links */}
             <div className="actionLinks">
                 {/* Button to direct to game page */}
                 <button
-                    className='navLink'
+                    className='navLink exploreBttn'
                 >
                     <Link to={'/'}>Explore</Link>
                 </button>
                 {/* Button for users to logout or sign in */}
                 {isLoggedIn ? (
-                    <button className='navLink' onClick={handleLogout}>
+                    <button
+                        className='navLink logoutBttn'
+                        onClick={handleLogout}
+                    >
                         Logout
                     </button>
                 ) : (
-                    <button className='navLink'>
+                    <button
+                        className='navLink loginBttn'
+                    >
                         <Link to={'/users/login'}>Login</Link>
                     </button>
                 )}
