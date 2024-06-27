@@ -13,35 +13,39 @@ export const SocialBar = () => {
     return (
         <div className="socialBarGroup">
             <p className="socialHead">SOCIALS</p>
-
             <div className="socialBarLinks">
                 <Link
                     to={'/'}
                     className="settingsLink socialIconLink"
+                    data-tooltip="Settings (COMING SOON)"
                 >
                     <img src={settings} alt="Settings Icon" />
                 </Link>
                 <Link
-                    to={'/'}
+                    to={'/messages'}
                     className="messagesLink socialIconLink"
+                    data-tooltip="Messages"
                 >
                     <img src={messages} alt="Messages Icon" />
                 </Link>
                 <Link
                     to={'/'}
                     className="trophyLink socialIconLink"
+                    data-tooltip="Trophies (COMING SOON)"
                 >
                     <img src={trophy} alt="Trophy Icon" />
                 </Link>
                 <Link
                     to={'/'}
                     className="friendsLink socialIconLink"
+                    data-tooltip="Friends (COMING SOON)"
                 >
                     <img src={friends} alt="Friends Icon" />
                 </Link>
                 <Link
                     to={`/user/${user?.username}`}
                     className="profileLink socialIconLink"
+                    data-tooltip="Profile"
                 >
                     <img src={profile} alt="Profile Icon" />
                 </Link>

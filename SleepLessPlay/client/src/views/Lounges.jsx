@@ -1,15 +1,11 @@
 /* eslint-disable no-unused-vars */
 import { SocialBar } from "../components/SocialBar";
-import { userContext } from "../context/userContext";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getLoungeByMember, getAllLounges } from "../services/lounge.services";
-import Cookies from 'js-cookie'
-import { getUserByID } from "../services/user.services";
 import { createPost, getAllPostsByLounge, updatePostByID } from "../services/post.services";
 
 export const Lounges = () => {
-  const { user, setUser, storeIdInLocalStorage } = useContext(userContext)
   const [allLounges, setAllLounges] = useState([])
   const [allPosts, setAllPosts] = useState([])
   const [userLounges, setUserLounges] = useState([])

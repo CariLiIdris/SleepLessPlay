@@ -3,18 +3,20 @@ import { getUserByID } from "../services/user.services";
 
 export const userContext = createContext();
 
-export const UserProvider = (props) => {
+export const UserProvider = ({ children }) => {
     const [user, setUser] = useState({})
     const id = window.localStorage.getItem('Logged in user id')
 
     useEffect(() => {
-        getUserByID(id)
+        if (id) {
+            getUserByID(id)
             .then((res) => {
                 setUser(res)
             })
             .catch((err) => {
                 console.log(err)
             })
+        }
     }, [id])
 
     const storeIdInLocalStorage = (id) => {
@@ -23,7 +25,7 @@ export const UserProvider = (props) => {
 
     return (
         <userContext.Provider value={{ user, setUser, storeIdInLocalStorage }}>
-            {props.children}
+            {children}
         </userContext.Provider>
     )
 }

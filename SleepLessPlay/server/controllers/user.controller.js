@@ -1,37 +1,60 @@
-import User from "../models/user.model.js"
-import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
-import multer from 'multer'
+import axios from 'axios';
+import User from "../models/user.model.js";
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import multer from 'multer';
 
 // Storage
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'imageUploads')
+        cb(null, 'imageUploads');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname)
+        cb(null, Date.now() + '-' + file.originalname);
     }
-})
+});
 
-export const upload = multer({ storage: Storage })
+export const upload = multer({ storage: Storage });
 
 // C
-export const createUser = async (req, res, next) => {
+export const createUser = async (req, res) => {
     try {
-        const USER = await User.create(req.body)
+        const USER = await User.create(req.body);
+
         const userToken = jwt.sign({
-            userId: USER._id, username: USER.username
-        }, process.env.SECRET_KEY)
-        console.log(userToken);
-        res.cookie('userToken', userToken)
-        res.status(200).json({ errormsg: 'success!', user: USER })
+            userId: USER._id,
+            username: USER.username
+        }, process.env.SECRET_KEY);
+
+        res.cookie('userToken', userToken);
+        res.status(200).json({ msg: 'success!', user: USER });
+
+        try {
+            const r = await axios.post(
+                'https://api.chatengine.io/users/',
+                {
+                    username: USER.username,
+                    secret: USER._id,
+                    email: USER.email,
+                    first_name: USER.fName,
+                    last_name: USER.lName
+                },
+                {
+                    headers: {
+                        "private-key": "b0631ade-f5b6-4fd6-836c-6d805767b978"
+                    }
+                }
+            );
+            console.log('ChatEngine user created:', r.data);
+        } catch (e) {
+            console.error('ChatEngine error:', e.response?.data);
+            // MAYBE handle creation error (e.g., logging, notification)
+        }
+    } catch (err) {
+        console.error(err);
+        res.status(400).json(err);
     }
-    catch (err) {
-        console.log(err)
-        res.status(400).json(err)
-        next(err)
-    }
-}
+};
 
 // R
 export const getAllUsers = async (req, res, next) => {

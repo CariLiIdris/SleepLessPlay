@@ -42,8 +42,8 @@ const UserSchema = new Schema({
     maxLength: [255, "Last name must not exceed 255 characters!"]
   },
   userIcon: {
-    data: Buffer,
-    contentType: String
+    type: String,
+    required: false
   }
 }, { timestamps: true });
 

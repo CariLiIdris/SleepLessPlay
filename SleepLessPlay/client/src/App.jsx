@@ -12,6 +12,7 @@ import { Lounges } from './views/Lounges'
 import { LoungeForm } from './views/LoungeForm'
 import { createLounge, updateLoungeByID } from './services/lounge.services'
 import { LoungeDisplay } from './views/LoungeDisplay'
+import { Messages } from './components/Messages'
 
 function App() {
 
@@ -68,10 +69,16 @@ function App() {
           path='/lounges/:id'
           element={<LoungeDisplay />}
         />
+
         <Route
           path='/lounge/:id/edit'
           element={<LoungeForm
             submitFunction={updateLoungeByID} />}
+        />
+
+        <Route
+          path='/messages'
+          element={<Messages />}
         />
       </Routes>
     </>

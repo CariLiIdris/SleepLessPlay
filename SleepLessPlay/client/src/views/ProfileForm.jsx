@@ -1,8 +1,5 @@
 import { useEffect, useState, useContext } from "react"
-import {
-    useParams,
-    useNavigate
-} from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { getUserByID } from "../services/user.services"
 import { userContext } from "../context/userContext"
 import { Link } from "react-router-dom"

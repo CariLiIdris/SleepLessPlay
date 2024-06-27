@@ -32,13 +32,15 @@ export const LoungeDisplay = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    getLoungeByID(id)
+    if (id) {
+      getLoungeByID(id)
       .then(res => setLounge(res))
       .catch(err => console.log(err))
 
-    getAllPostsByLounge(id)
-      .then(res => setPosts(res))
-      .catch(err => console.log(err))
+      getAllPostsByLounge(id)
+        .then(res => setPosts(res))
+        .catch(err => console.log(err))
+    }
   }, [id])
 
   const joinLoungeFunction = (loungeId) => {
