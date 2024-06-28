@@ -14,7 +14,7 @@ export const ProfileForm = ({ submitFunction }) => {
         lName: '',
         email: '',
         bio: '',
-        // userIcon: ''
+        avatar: ''
     })
 
     // Server Errors
@@ -30,32 +30,16 @@ export const ProfileForm = ({ submitFunction }) => {
 
     //Nav Shorthand
     const navigate = useNavigate();
+
     // When editing by ID, the form should autofill
     useEffect(() => {
         getUserByID(id)
             .then(res => {
                 setUserData(res)
             })
+            .catch(err => console.log(err))
     }, [id])
 
-    // Handle our submit
-    const submitHandler = e => {
-        e.preventDefault();
-
-        submitFunction(userData)
-            .then((res) => {
-                // console.log('PF Submit UserData: ', userData, 'Res: ', res )
-                storeIdInLocalStorage(userData._id)
-                setUser(res)
-                navigate(`/user/${userData.username}`)
-            })
-            .catch(error => setUserErr(error.response.data))
-    }
-
-    // Validations for front-end
-    const validateForm = () => {
-        return Object.values(formErrors).every(value => value === '')
-    }
 
     const updateUserData = e => {
         const { className, value, files } = e.target;
@@ -112,18 +96,38 @@ export const ProfileForm = ({ submitFunction }) => {
         setFormErrors(prev => ({ ...prev, password: errormsg }));
     }
 
+    // Validations for front-end
+    const validateForm = () => {
+        return Object.values(formErrors).every(value => value === '')
+    }
+
+    // Handle our submit
+    const submitHandler = e => {
+        e.preventDefault()
+
+        submitFunction(userData)
+            .then(res => {
+                console.log('PF Submit UserData: ', userData, 'Res: ', res)
+                storeIdInLocalStorage(userData._id)
+                setUser(res)
+                navigate(`/user/${userData.username}`)
+            })
+            .catch(error => setUserErr(error.response.data))
+    }
+
+
     return (
         <div className="profileFormContainer">
             <form className="profileForm" onSubmit={submitHandler}>
-                {/* Profile Picture Input
+                {/* Profile Picture Input */}
                 <label>
-                    User Icon:
+                    User Avatar:
                     <input
                         type="file"
-                        className="userIcon"
+                        className="avatar"
                         onChange={updateUserData}
                     />
-                </label> */}
+                </label>
                 {/* Username Input */}
                 <label>
                     Username:

@@ -6,8 +6,7 @@ import {
     updateUserByID,
     deleteUserByID,
     logout,
-    login,
-    upload
+    login
 } from "../controllers/user.controller.js"
 import { authenticate } from '../config/jwt.config.js'
 
@@ -24,7 +23,7 @@ router.route('/user/:id/delete')
     .delete(deleteUserByID)
 
 router.route('/user/:id/update')
-    .put(upload.single('userIcon'), updateUserByID)
+    .put(updateUserByID)
 
 router.route('/users/logout')
     .post(logout)

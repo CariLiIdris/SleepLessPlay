@@ -38,7 +38,7 @@ const UserSchema = new Schema({
   },
   bio: {
     type: String,
-    minLength: [, "A bio must have at least 2 character"],
+    minLength: [2, "A bio must have at least 2 character"],
     maxLength: [255, "Last name must not exceed 255 characters!"]
   },
   userIcon: {

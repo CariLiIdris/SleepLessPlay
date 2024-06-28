@@ -2,21 +2,9 @@ import axios from 'axios';
 import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import multer from 'multer';
 import path from 'path'
-
-// Storage
-const Storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, 'userIcon');
-    },
-    filename: (req, file, cb) => {
-        cb(null, Date.now() + path.extname(file.originalname));
-        console.log(file)
-    }
-});
-
-export const upload = multer({ storage: Storage });
+import fs from 'fs'
+import bucket from '../config/firebase.config.js';
 
 // C
 export const createUser = async (req, res) => {
@@ -103,13 +91,44 @@ export const updateUserByID = async (req, res, next) => {
         new: true,
         runValidators: true,
     };
+    const { id } = req.params;
+    let reqBody = { ...req.body };
+    console.log(reqBody)
+
     try {
-        const updateData = { ...req.body };
+        if (req.avatar) {
+            const file = req.file;
+            const fileName = `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`;
+            const blob = bucket.file(fileName);
+            const blobStream = blob.createWriteStream({
+                metadata: {
+                    contentType: file.mimetype,
+                },
+            });
 
-        delete updateData._id;
+            blobStream.on("error", (err) => {
+                next(err);
+            });
 
-        const UPDATED_USER = await User.findByIdAndUpdate(req.params.id, updateData, options);
-        res.status(200).json(UPDATED_USER);
+            blobStream.on("finish", async () => {
+                const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
+                reqBody.avatar = publicUrl;
+
+                const updateData = { ...reqBody };
+                delete updateData._id;
+
+                const UPDATED_USER = await User.findByIdAndUpdate(id, updateData, options);
+                res.status(200).json(UPDATED_USER);
+            });
+
+            blobStream.end(file.buffer);
+        } else {
+            const updateData = { ...reqBody };
+            delete updateData._id;
+
+            const UPDATED_USER = await User.findByIdAndUpdate(id, updateData, options);
+            res.status(200).json(UPDATED_USER);
+        }
     } catch (err) {
         console.log(err);
         res.status(400).json(err);
