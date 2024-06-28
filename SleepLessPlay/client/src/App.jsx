@@ -13,6 +13,8 @@ import { LoungeForm } from './views/LoungeForm'
 import { createLounge, updateLoungeByID } from './services/lounge.services'
 import { LoungeDisplay } from './views/LoungeDisplay'
 import { Messages } from './components/Messages'
+import { Games } from './views/Games'
+import { GameForm } from './views/GameForm'
 
 function App() {
 
@@ -79,6 +81,21 @@ function App() {
         <Route
           path='/messages'
           element={<Messages />}
+        />
+
+        <Route
+          path='/games'
+          element={<Games />}
+        />
+
+        <Route
+          path="/games/create"
+          element={<GameForm />}
+        />
+
+        <Route
+          path="/games/:id"
+          element={<GameForm />}
         />
       </Routes>
     </>

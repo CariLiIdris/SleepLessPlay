@@ -71,9 +71,8 @@ export const LoginForm = ({ submitFunction }) => {
     }
 
     return (
-        <>
-            <form onSubmit={submitHandler}>
-                {/* User input */}
+        <div className="loginFormContainer">
+            <form className="loginForm" onSubmit={submitHandler}>
                 <p>{activeUserErr.validationErrors?.msg}</p>
                 <label>
                     Username:
@@ -84,12 +83,10 @@ export const LoginForm = ({ submitFunction }) => {
                         onChange={updateActiveUserData}
                     />
                 </label>
-                {/* Backend Validations */}
                 <p> {activeUserErr.validationErrors?.username} </p>
-                {/* Frontend Validations */}
                 <p> {formErrors?.username} </p>
                 <label>
-                    {/* Password Input */}
+                    Password:
                     <input
                         type="password"
                         className="password"
@@ -97,9 +94,7 @@ export const LoginForm = ({ submitFunction }) => {
                         onChange={updateActiveUserData}
                     />
                 </label>
-                {/* Backend Validations */}
                 <p> {activeUserErr.validationErrors?.password} </p>
-                {/* Frontend Validations */}
                 <p> {formErrors?.password} </p>
                 <button
                     type="submit"
@@ -108,8 +103,8 @@ export const LoginForm = ({ submitFunction }) => {
                 >
                     Login
                 </button>
-                <Link to={'/signup'} >Dont have an account? Sign Up!</Link>
+                <Link to={'/signup'} className="cancelLink">Dont have an account? Sign Up!</Link>
             </form>
-        </>
+        </div>
     )
 }

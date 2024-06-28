@@ -59,7 +59,7 @@ export const Navbar = ({ submitFunction }) => {
                 <button
                     className='navLink exploreBttn'
                 >
-                    <Link to={'/'}>Explore</Link>
+                    <Link to={'/games'}>Explore</Link>
                 </button>
                 {/* Button for users to logout or sign in */}
                 {isLoggedIn ? (

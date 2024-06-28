@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useState, useContext, useEffect } from "react"
 import {
+  Link,
   useNavigate,
   useParams
 } from 'react-router-dom'
@@ -98,13 +99,8 @@ export const LoungeForm = ({ submitFunction }) => {
 
   return (
     <>
-      {!isLoggedIn ? (
-        <>
-          <p>You must sign in to create a lounge!</p>
-        </>
-      ) : (
+      <div className="loungeFormContainer">
         <form onSubmit={submitHandler} className="loungeForm">
-          {/* Lounge Name */}
           <label>
             Lounge Name:
             <input
@@ -114,43 +110,32 @@ export const LoungeForm = ({ submitFunction }) => {
               onChange={updateLoungeData}
             />
           </label>
-          {/* Backend Validations */}
-          <p className="error"> {loungeErr?.validationErrors?.name} </p>
-          {/* Frontend Validations */}
-          <p className="error"> {formErrors?.name} </p>
-          {/* Lounge Description */}
+          <p className="error">{loungeErr?.validationErrors?.name}</p>
+          <p className="error">{formErrors?.name}</p>
+
           <label>
             Lounge Description:
             <textarea
-              rows='8'
-              cols='50'
+              rows="8"
+              cols="50"
               className="description"
               value={loungeData.description}
               onChange={updateLoungeData}
             ></textarea>
           </label>
-          {/* Backend Validations */}
-          <p className="error"> {loungeErr?.validationErrors?.description} </p>
-          {/* Frontend Validations */}
-          <p className="error"> {formErrors?.description} </p>
-          {/* Submit Bttn */}
+          <p className="error">{loungeErr?.validationErrors?.description}</p>
+          <p className="error">{formErrors?.description}</p>
+
           <button
             type="submit"
             className="submitBttn"
             disabled={!validateForm()}
           >
-            {!id ? (
-              <>
-                Create Lounge
-              </>
-            ) : (
-              <>
-                Update Lounge
-              </>
-            )}
+            {id ? 'Update Lounge' : 'Create Lounge'}
           </button>
+          <Link to="/lounges" className="cancelLink">Cancel</Link>
         </form>
-      )}
+      </div>
     </>
   );
 };

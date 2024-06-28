@@ -90,7 +90,7 @@ export const Dashboard = () => {
                         <div className="dashGames">
                             <p>Games</p>
                             <Link
-                                to={'/'}
+                                to={'/games'}
                                 className="gameLink"
                             >
                                 <img src={followIcon} alt="Follow Link Icon" />

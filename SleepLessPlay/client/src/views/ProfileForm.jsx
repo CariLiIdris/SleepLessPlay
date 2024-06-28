@@ -14,7 +14,7 @@ export const ProfileForm = ({ submitFunction }) => {
         lName: '',
         email: '',
         bio: '',
-        userIcon: ''
+        // userIcon: ''
     })
 
     // Server Errors
@@ -115,7 +115,7 @@ export const ProfileForm = ({ submitFunction }) => {
     return (
         <div className="profileFormContainer">
             <form className="profileForm" onSubmit={submitHandler}>
-                {/* Profile Picture Input */}
+                {/* Profile Picture Input
                 <label>
                     User Icon:
                     <input
@@ -123,7 +123,7 @@ export const ProfileForm = ({ submitFunction }) => {
                         className="userIcon"
                         onChange={updateUserData}
                     />
-                </label>
+                </label> */}
                 {/* Username Input */}
                 <label>
                     Username:

@@ -43,7 +43,7 @@ export const getLoungeByID = async (req, res, next) => {
     const { id } = req.params
     try {
         const FOUNDLOUNGE = await Lounge.findById(id);
-        console.log("Found Lounge: ", FOUNDLOUNGE, "Received Id: ", id)
+        // console.log("Found Lounge: ", FOUNDLOUNGE, "Received Id: ", id)
         res.status(200).json(FOUNDLOUNGE);
     }
     catch (err) {

@@ -2,7 +2,8 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import router from './routes/user.routes.js';
-import loungeRouter from './routes/lounge.routes.js'
+import loungeRouter from './routes/lounge.routes.js';
+import gameRouter from './routes/game.routes.js';
 import postRouter from './routes/post.routes.js';
 import dbConnect from './config/mongoose.config.js';
 import cookieParser from 'cookie-parser';
@@ -21,9 +22,12 @@ app.use(cookieParser(process.env.SECRET_KEY));
 app.use('/api', router);
 app.use('/api', loungeRouter);
 app.use('/api', postRouter);
+app.use('/api', gameRouter);
+
 app.use('/users', router);
 app.use('/lounges', loungeRouter);
 app.use('/posts', postRouter);
+app.use('/games', gameRouter);
 
 // ChatEngine Authenticate
 app.post('/authenticate', async (req, res) => {

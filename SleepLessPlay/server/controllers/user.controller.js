@@ -3,14 +3,16 @@ import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import multer from 'multer';
+import path from 'path'
 
 // Storage
 const Storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, 'imageUploads');
+        cb(null, 'userIcon');
     },
     filename: (req, file, cb) => {
-        cb(null, Date.now() + '-' + file.originalname);
+        cb(null, Date.now() + path.extname(file.originalname));
+        console.log(file)
     }
 });
 
@@ -102,16 +104,16 @@ export const updateUserByID = async (req, res, next) => {
         runValidators: true,
     };
     try {
-        const updateData = { ...req.body }
-        delete updateData._id
+        const updateData = { ...req.body };
+
+        delete updateData._id;
 
         const UPDATED_USER = await User.findByIdAndUpdate(req.params.id, updateData, options);
         res.status(200).json(UPDATED_USER);
-    }
-    catch (err) {
+    } catch (err) {
         console.log(err);
         res.status(400).json(err);
-        next(err)
+        next(err);
     }
 }
 

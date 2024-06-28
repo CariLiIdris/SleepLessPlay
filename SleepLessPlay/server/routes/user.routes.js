@@ -24,7 +24,7 @@ router.route('/user/:id/delete')
     .delete(deleteUserByID)
 
 router.route('/user/:id/update')
-    .put(updateUserByID)
+    .put(upload.single('userIcon'), updateUserByID)
 
 router.route('/users/logout')
     .post(logout)
