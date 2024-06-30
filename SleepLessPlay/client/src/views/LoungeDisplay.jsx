@@ -145,14 +145,14 @@ export const LoungeDisplay = () => {
           <h2 className="loungeName">{lounge.name}</h2>
           <p className="loungeDescription">{lounge.description}</p>
           <div className="loungeActions">
-            {(!isUserMember && lounge.owner !== user._id) && (
+            {(!isUserMember && lounge.owner?.username !== user.username) && (
               <button className="joinLoungeButton" onClick={() => joinLoungeFunction(lounge._id)}>Join Lounge</button>
             )}
-            {lounge.owner === user._id && (
+            {lounge.owner?.username === user.username && (
               <button className="deleteLoungeButton" onClick={() => deleteHandler(lounge._id)}>Delete Lounge</button>
             )}
           </div>
-          {(isUserMember || lounge.owner === user._id) && (
+          {(isUserMember || lounge.owner?.username === user.username) && (
             <form className="loungePostFormDisplay" onSubmit={submitHandler}>
               <label>
                 Lounge
@@ -214,7 +214,7 @@ export const LoungeDisplay = () => {
                   <span className="postTime">{moment(post.createdAt).fromNow()}</span>
                 </p>
               )}
-              {post.author?._id === user._id && (
+              {post.author.username === user.username && (
                 <div className="postActions">
                   <button onClick={() => editPostHandler(post._id)} className="editBttn">Edit</button>
                   <button onClick={() => deletePostHandler(post._id)} className="deleteBttn">Delete</button>

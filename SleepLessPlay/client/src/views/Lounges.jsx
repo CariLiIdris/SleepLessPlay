@@ -1,15 +1,16 @@
 /* eslint-disable no-unused-vars */
 import { SocialBar } from "../components/SocialBar";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { getLoungeByMember, getAllLounges } from "../services/lounge.services";
 import { createPost, getAllPostsByLounge, updatePostByID } from "../services/post.services";
+import { userContext } from '../context/userContext';
 
 export const Lounges = () => {
   const [allLounges, setAllLounges] = useState([])
   const [allPosts, setAllPosts] = useState([])
   const [userLounges, setUserLounges] = useState([])
-  const id = window.localStorage.getItem("Logged in user id");
+  const { user } = useContext(userContext);
 
   //Nav Shorthand
   const navigate = useNavigate();
@@ -29,8 +30,8 @@ export const Lounges = () => {
 
   const filterUserLounges = (lounges, userId) => {
     const filteredLounges = lounges.filter(lounge =>
-      lounge.owner === userId ||
-      lounge.coOwner === userId ||
+      lounge.owner?.id === userId ||
+      lounge.coOwner?.id === userId ||
       lounge.admins.includes(userId) ||
       lounge.members.includes(userId)
     );
@@ -38,12 +39,12 @@ export const Lounges = () => {
   };
 
   const getPostsForUserLounges = lounges => {
-    const postsPromises = lounges.map(lounge => {
-      return getAllPostsByLounge(lounge._id)
-        .then(posts => ({
-          loungeId: lounge._id,
-          posts: posts
-        }))
+    const postsPromises = lounges.map(async lounge => {
+      const posts = await getAllPostsByLounge(lounge._id);
+      return ({
+        loungeId: lounge._id,
+        posts: posts
+      });
     })
 
     Promise.all(postsPromises)
@@ -62,11 +63,11 @@ export const Lounges = () => {
     getAllLounges()
       .then(res => {
         setAllLounges(res)
-        filterUserLounges(res, id)
-        // console.log(res)
+        filterUserLounges(res, user._id)
+        console.log(res)
       })
       .catch(err => console.log(err))
-  }, [id])
+  }, [user._id])
 
   // *Posts UseEffect
   useEffect(() => {
@@ -180,7 +181,7 @@ export const Lounges = () => {
                   <h3 className="loungeCardTitle"><Link to={`/lounges/${lounge._id}`}>{lounge.name}</Link></h3>
                   <p className="loungeCardOwner">{lounge.owner.username}</p>
                   <p className="loungeCardDescription">{lounge.description}</p>
-                  {lounge.owner === id && (
+                  {lounge.owner.username === user.username && (
                     <Link to={`/lounge/${lounge._id}/edit`} className="editLink">Edit</Link>
                   )}
                   <div className="posts">
