@@ -2,9 +2,21 @@ import axios from 'axios';
 import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import multer from 'multer';
 import path from 'path'
-import fs from 'fs'
-import bucket from '../config/firebase.config.js';
+
+// // Storage
+// const Storage = multer.diskStorage({
+//     destination: (req, file, cb) => {
+//         cb(null, 'uploads/');
+//     },
+//     filename: (req, file, cb) => {
+//         cb(null, Date.now() + path.extname(file.originalname));
+//         console.log(file)
+//     }
+// });
+
+// export const upload = multer({ storage: Storage });
 
 // C
 export const createUser = async (req, res) => {
@@ -59,6 +71,20 @@ export const getAllUsers = async (req, res, next) => {
     }
 }
 
+export const searchUsers = async (req, res, next) => {
+    try {
+        const { q } = req.query;
+        // Case-insensitive search
+        const searchQuery = q ? { username: new RegExp(q, 'i') } : {}
+        const allUsers = await User.find(searchQuery);
+        res.status(200).json(allUsers);
+    } catch (err) {
+        console.log(err)
+        res.status(400).json(err);
+        next(err)
+    }
+}
+
 export const getUserByID = async (req, res, next) => {
     const { id } = req.params
     try {
@@ -73,13 +99,17 @@ export const getUserByID = async (req, res, next) => {
 }
 
 export const getUserByUsername = async (req, res, next) => {
-    const { username } = req.params
+    const { username } = req.params;
     try {
-        const FOUNDUSER = await User.findOne(username);
+        const FOUNDUSER = await User.findOne({ username: username })
+        // console.log(FOUNDUSER, "FOUND USER", 'USERNAME: ', username)
+        if (!FOUNDUSER) {
+            return res.status(404).json({ message: 'User not found' })
+        }
         res.status(200).json(FOUNDUSER);
     }
     catch (err) {
-        console.log(err);
+        console.log(err)
         res.status(400).json(err)
         next(err)
     }
@@ -91,44 +121,13 @@ export const updateUserByID = async (req, res, next) => {
         new: true,
         runValidators: true,
     };
-    const { id } = req.params;
-    let reqBody = { ...req.body };
-    console.log(reqBody)
-
     try {
-        if (req.avatar) {
-            const file = req.file;
-            const fileName = `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`;
-            const blob = bucket.file(fileName);
-            const blobStream = blob.createWriteStream({
-                metadata: {
-                    contentType: file.mimetype,
-                },
-            });
+        const updateData = { ...req.body };
 
-            blobStream.on("error", (err) => {
-                next(err);
-            });
+        delete updateData._id;
 
-            blobStream.on("finish", async () => {
-                const publicUrl = `https://storage.googleapis.com/${bucket.name}/${blob.name}`;
-                reqBody.avatar = publicUrl;
-
-                const updateData = { ...reqBody };
-                delete updateData._id;
-
-                const UPDATED_USER = await User.findByIdAndUpdate(id, updateData, options);
-                res.status(200).json(UPDATED_USER);
-            });
-
-            blobStream.end(file.buffer);
-        } else {
-            const updateData = { ...reqBody };
-            delete updateData._id;
-
-            const UPDATED_USER = await User.findByIdAndUpdate(id, updateData, options);
-            res.status(200).json(UPDATED_USER);
-        }
+        const UPDATED_USER = await User.findByIdAndUpdate(req.params.id, updateData, options);
+        res.status(200).json(UPDATED_USER);
     } catch (err) {
         console.log(err);
         res.status(400).json(err);
@@ -199,5 +198,40 @@ export const getUserInfoFromToken = () => {
     } catch (error) {
         console.log('Invalid token', error)
         return null;
+    }
+}
+
+export const addFriend = async (req, res, next) => {
+    const { friendId } = req.body;
+    const { id } = req.params;
+
+    try {
+        const user = await User.findById(id);
+        const friend = await User.findById(friendId);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        if (!friend) {
+            return res.status(404).json({ message: 'Friend not found' });
+        }
+
+        if (!user.friends.includes(friendId)) {
+            user.friends.push(friendId);
+        }
+
+        if (!friend.friends.includes(id)) {
+            friend.friends.push(id);
+        }
+
+        await user.save({ validateBeforeSave: false });
+        await friend.save({ validateBeforeSave: false });
+
+        res.status(200).json({ message: 'Friend added successfully' });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json(err);
+        next(err);
     }
 }

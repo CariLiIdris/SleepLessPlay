@@ -15,6 +15,9 @@ import { LoungeDisplay } from './views/LoungeDisplay'
 import { Messages } from './components/Messages'
 import { Games } from './views/Games'
 import { GameForm } from './views/GameForm'
+import { GameDisplay } from './views/GameDisplay'
+import { UserDisplay } from './views/UserDisplay'
+import { Friends } from './views/Friends'
 
 function App() {
 
@@ -97,6 +100,19 @@ function App() {
           path="/games/:id"
           element={<GameForm />}
         />
+
+        <Route
+          path="/play/game/:id"
+          element={<GameDisplay />}
+        />
+
+        <Route
+          path='/users/username/:username'
+          element={<UserDisplay />} />
+
+        <Route
+          path='/friends'
+          element={<Friends />} />
       </Routes>
     </>
   )

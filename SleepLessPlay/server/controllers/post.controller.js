@@ -1,29 +1,37 @@
 import Post from "../models/post.model.js";
 import Lounge from "../models/lounge.model.js";
 import jwt from 'jsonwebtoken'
+import User from "../models/user.model.js";
 
 // C
 export const createPost = async (req, res) => {
   try {
     const token = req.cookies.userToken;
     if (!token) {
-      return res.status(401).json({ errormsg: 'No token found. Authorization DENIED!' })
+      return res.status(401).json({ errormsg: 'No token found. Authorization DENIED!' });
     }
 
-    const decoded = jwt.verify(token, process.env.SECRET_KEY)
+    const decoded = jwt.verify(token, process.env.SECRET_KEY);
     const userId = decoded.userId;
+
+    const user = await User.findById(userId).select('username');
+    if (!user) {
+      return res.status(404).json({ errormsg: 'User not found' });
+    }
 
     const postData = {
       ...req.body,
-      author: userId
-    }
+      author: {
+        id: userId,
+        username: user.username
+      }
+    };
 
-    const POST = await Post.create(postData)
-    res.status(200).json({ msg: 'Post created successfully', post: POST })
-  }
-  catch (err) {
-    console.log(err)
-    res.status(400).json(err)
+    const POST = await Post.create(postData);
+    res.status(200).json({ msg: 'Post created successfully', post: POST });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
   }
 }
 

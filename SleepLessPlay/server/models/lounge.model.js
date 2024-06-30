@@ -14,9 +14,15 @@ const LoungeSchema = new Schema({
         minLength: [3, 'Description must be greater than 3 characters!']
     },
     owner: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'A lounge must have an owner']
+        id: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: true
+        },
+        username: {
+            type: String,
+            required: true
+        }
     },
     admins: [{
         type: Schema.Types.ObjectId,

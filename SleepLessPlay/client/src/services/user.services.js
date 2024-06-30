@@ -2,7 +2,8 @@
 import axios from 'axios'
 
 const USER_INSTANCE = axios.create({
-    baseURL: "http://localhost:8002/users"
+    baseURL: "http://localhost:8002/users",
+    withCredentials: true
 })
 
 // C
@@ -46,7 +47,7 @@ export const getUserByID = async id => {
 
 export const getUserByUsername = async username => {
     try {
-        const res = await USER_INSTANCE.get(`/users/${username}`)
+        const res = await USER_INSTANCE.get(`/users/username/${username}`)
         return res.data
     }
     catch (err) { throw err }
@@ -55,6 +56,16 @@ export const getUserByUsername = async username => {
 export const getAllUsers = async () => {
     try {
         const res = await USER_INSTANCE.get('/users')
+        return res.data
+    }
+    catch (err) { throw err }
+}
+
+export const searchUsers = async (query = '') => {
+    try {
+        const res = await USER_INSTANCE.get('/users', {
+            params: { q: query }
+        });
         return res.data
     }
     catch (err) { throw err }
@@ -77,4 +88,14 @@ export const deleteUserByID = async id => {
         return res.data
     }
     catch (err) { throw err }
+}
+
+// Add Friend
+export const addFriend = async (userId, friendId) => {
+    try {
+        const res = await USER_INSTANCE.put(`/users/${userId}/addFriend`, { friendId });
+        return res.data;
+    } catch (err) {
+        throw err;
+    }
 }

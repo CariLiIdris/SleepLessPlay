@@ -1,5 +1,4 @@
 /* eslint-disable no-unused-vars */
-import { SocialBar } from "../components/SocialBar";
 import { userContext } from "../context/userContext";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -34,8 +33,8 @@ export const LoungeDisplay = () => {
   useEffect(() => {
     if (id) {
       getLoungeByID(id)
-      .then(res => setLounge(res))
-      .catch(err => console.log(err))
+        .then(res => setLounge(res))
+        .catch(err => console.log(err))
 
       getAllPostsByLounge(id)
         .then(res => setPosts(res))
@@ -198,7 +197,7 @@ export const LoungeDisplay = () => {
         <div className="loungePosts">
           {posts.map(post => (
             <div key={post._id} className="post">
-              <p className="postAuthor">{post.author.username}</p>
+              <p className="postAuthor">{post.author?.username}</p>
               {isEditing === post._id ? (
                 <form onSubmit={saveEditPostHandler}>
                   <textarea
@@ -215,7 +214,7 @@ export const LoungeDisplay = () => {
                   <span className="postTime">{moment(post.createdAt).fromNow()}</span>
                 </p>
               )}
-              {post.author._id === user._id && (
+              {post.author?._id === user._id && (
                 <div className="postActions">
                   <button onClick={() => editPostHandler(post._id)} className="editBttn">Edit</button>
                   <button onClick={() => deletePostHandler(post._id)} className="deleteBttn">Delete</button>

@@ -1,28 +1,35 @@
 import Lounge from "../models/lounge.model.js";
 import jwt from 'jsonwebtoken'
+import User from "../models/user.model.js";
 
-// C
 export const createLounge = async (req, res) => {
     try {
         const token = req.cookies.userToken;
         if (!token) {
-            return res.status(401).json({ errormsg: 'No token found. Authorization DENIED!' })
+            return res.status(401).json({ errormsg: 'No token found. Authorization DENIED!' });
         }
 
-        const decoded = jwt.verify(token, process.env.SECRET_KEY)
+        const decoded = jwt.verify(token, process.env.SECRET_KEY);
         const userId = decoded.userId;
+
+        const user = await User.findById(userId).select('username')
+        if (!user) {
+            return res.status(404).json({ errormsg: 'User not found' })
+        }
 
         const loungeData = {
             ...req.body,
-            owner: userId
+            owner: {
+                id: userId,
+                username: user.username
+            }
         }
 
-        const LOUNGE = await Lounge.create(loungeData)
-        res.status(200).json({ msg: 'Lounge created successfully', lounge: LOUNGE })
-    }
-    catch (err) {
-        console.log(err)
-        res.status(400).json(err)
+        const LOUNGE = await Lounge.create(loungeData);
+        res.status(200).json({ msg: 'Lounge created successfully', lounge: LOUNGE });
+    } catch (err) {
+        console.log(err);
+        res.status(400).json(err);
     }
 }
 
@@ -34,6 +41,20 @@ export const getAllLounges = async (req, res, next) => {
     }
     catch (err) {
         console.log(err);
+        res.status(400).json(err);
+        next(err)
+    }
+}
+
+export const searchLounges = async (req, res, next) => {
+    try {
+        const { q } = req.query;
+        // Case-insensitive search
+        const searchQuery = q ? { name: new RegExp(q, 'i') } : {};
+        const allLounges = await Lounge.find(searchQuery);
+        res.status(200).json(allLounges);
+    } catch (err) {
+        console.log(err)
         res.status(400).json(err);
         next(err)
     }

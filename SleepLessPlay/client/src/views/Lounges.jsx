@@ -144,9 +144,9 @@ export const Lounges = () => {
             </select>
           </label>
           {/* Backend Validations */}
-          <p> {postErr.validationErrors?.lounge} </p>
+          <p className="error"> {postErr.validationErrors?.lounge} </p>
           {/* Frontend Validations */}
-          <p> {formErrors?.lounge} </p>
+          <p className="error"> {formErrors?.lounge} </p>
           <div>
             <label>
               Begin Your Post
@@ -159,9 +159,9 @@ export const Lounges = () => {
               ></textarea>
             </label>
             {/* Backend Validations */}
-            <p> {postErr.validationErrors?.content} </p>
+            <p className="error"> {postErr.validationErrors?.content} </p>
             {/* Frontend Validations */}
-            <p> {formErrors?.content} </p>
+            <p className="error"> {formErrors?.content} </p>
             <button
               type="submit"
               className="submitBttn"
@@ -178,6 +178,7 @@ export const Lounges = () => {
               {userLounges?.map(lounge => (
                 <div key={lounge._id} className="loungeCard">
                   <h3 className="loungeCardTitle"><Link to={`/lounges/${lounge._id}`}>{lounge.name}</Link></h3>
+                  <p className="loungeCardOwner">{lounge.owner.username}</p>
                   <p className="loungeCardDescription">{lounge.description}</p>
                   {lounge.owner === id && (
                     <Link to={`/lounge/${lounge._id}/edit`} className="editLink">Edit</Link>
@@ -186,7 +187,7 @@ export const Lounges = () => {
                     {allPosts[lounge._id]?.map(post => (
                       <div key={post._id} className="postCard">
                         <p className="postTitle">{post.title}</p>
-                        <p className="postContent">{post.content}</p>
+                        <p className="postContent"><span className="postAuthor">{post.author.username}:</span>{post.content}</p>
                       </div>
                     ))}
                   </div>

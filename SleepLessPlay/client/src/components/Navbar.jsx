@@ -5,43 +5,130 @@ import { useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie'
 import { useEffect, useState, useContext } from 'react'
 import { userContext } from "../context/userContext"
+import { getAllGames } from '../services/game.services'
+import { getAllLounges } from '../services/lounge.services'
+import { getAllUsers } from '../services/user.services'
+import { debounce } from 'lodash'
 
 // eslint-disable-next-line react/prop-types
 export const Navbar = ({ submitFunction }) => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const { user, storeIdInLocalStorage } = useContext(userContext)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const { user } = useContext(userContext)
+    const [searchInput, setSearchInput] = useState('')
+    const [searchResults, setSearchResults] = useState({ games: [], lounges: [], users: [] })
+    const [allData, setAllData] = useState({ games: [], lounges: [], users: [] })
+    const [dropdownVisible, setDropdownVisible] = useState(false)
 
     const navigate = useNavigate();
+
     useEffect(() => {
         if (user._id) {
             setIsLoggedIn(true)
         }
-    }, [user._id]);
+    }, [user._id])
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const games = await getAllGames()
+                const lounges = await getAllLounges()
+                const users = await getAllUsers()
+                setAllData({ games, lounges, users })
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        fetchData()
+    }, [])
 
     const handleLogout = () => {
         submitFunction()
             .then(() => {
-                Cookies.remove('userToken');
-                setIsLoggedIn(false);
+                Cookies.remove('userToken')
+                setIsLoggedIn(false)
                 window.localStorage.removeItem('Logged in user id')
-                navigate('/users/login');
+                navigate('/users/login')
             })
-    };
+    }
+
+    const handleSearch = query => {
+        if (query.trim()) {
+            const games = allData.games.filter(game => game.name.toLowerCase().includes(query.toLowerCase()))
+
+            const lounges = allData.lounges.filter(lounge => lounge.name.toLowerCase().includes(query.toLowerCase()))
+
+            const users = allData.users.filter(user => user.username.toLowerCase().includes(query.toLowerCase()))
+
+            setSearchResults({ games, lounges, users });
+            setDropdownVisible(true);
+        }
+        else {
+            setSearchResults({ games: [], lounges: [], users: [] })
+            setDropdownVisible(false);
+        }
+    }
+
+    const debouncedSearch = debounce(handleSearch, 300)
+
+    const handleInputChange = e => {
+        const query = e.target.value
+        setSearchInput(query)
+        debouncedSearch(query)
+    }
 
     return (
         <div className="navbar">
-            {/* Search form for searching games */}
-            <form>
+            <form onSubmit={e => e.preventDefault()}>
                 <label className='searchLabel'>
-                    Searchbar:
+                    Search:
                     <input
                         type="text"
                         className="navSearch"
+                        value={searchInput}
+                        onChange={handleInputChange}
                     />
                 </label>
-                <button type="submit" className='searchBttn'>Search</button>
+                {dropdownVisible && (
+                    <div className="dropdown">
+                        <div className="dropdown-category">
+                            <h4>Games</h4>
+                            {searchResults.games.length ? (
+                                searchResults.games.map(game => (
+                                    <Link key={game._id} to={`/play/game/${game._id}`} onClick={() => setDropdownVisible(false)}>
+                                        {game.name}
+                                    </Link>
+                                ))
+                            ) : (
+                                <p>No games found</p>
+                            )}
+                        </div>
+                        <div className="dropdown-category">
+                            <h4>Lounges</h4>
+                            {searchResults.lounges.length ? (
+                                searchResults.lounges.map(lounge => (
+                                    <Link key={lounge._id} to={`/lounges/${lounge._id}`} onClick={() => setDropdownVisible(false)}>
+                                        {lounge.name}
+                                    </Link>
+                                ))
+                            ) : (
+                                <p>No lounges found</p>
+                            )}
+                        </div>
+                        <div className="dropdown-category">
+                            <h4>Users</h4>
+                            {searchResults.users.length ? (
+                                searchResults.users.map(user => (
+                                    <Link key={user._id} to={`/users/username/${user.username}`} onClick={() => setDropdownVisible(false)}>
+                                        {user.username}
+                                    </Link>
+                                ))
+                            ) : (
+                                <p>No users found</p>
+                            )}
+                        </div>
+                    </div>
+                )}
             </form>
-            {/* Brand Logo */}
             <img
                 src={logo}
                 alt="SleepLessPlay Brand Logo" className='navLogo'
@@ -53,26 +140,16 @@ export const Navbar = ({ submitFunction }) => {
                             navigate('/')
                         )
                 }} />
-            {/* Nav links */}
             <div className="actionLinks">
-                {/* Button to direct to game page */}
-                <button
-                    className='navLink exploreBttn'
-                >
+                <button className='navLink exploreBttn'>
                     <Link to={'/games'}>Explore</Link>
                 </button>
-                {/* Button for users to logout or sign in */}
                 {isLoggedIn ? (
-                    <button
-                        className='navLink logoutBttn'
-                        onClick={handleLogout}
-                    >
+                    <button className='navLink logoutBttn' onClick={handleLogout}>
                         Logout
                     </button>
                 ) : (
-                    <button
-                        className='navLink loginBttn'
-                    >
+                    <button className='navLink loginBttn'>
                         <Link to={'/users/login'}>Login</Link>
                     </button>
                 )}

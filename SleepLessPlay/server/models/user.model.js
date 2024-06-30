@@ -41,10 +41,10 @@ const UserSchema = new Schema({
     minLength: [2, "A bio must have at least 2 character"],
     maxLength: [255, "Last name must not exceed 255 characters!"]
   },
-  userIcon: {
-    type: String,
-    required: false
-  }
+  friends: [{
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  }]
 }, { timestamps: true });
 
 // Compare & Confirm passwords
@@ -58,9 +58,10 @@ UserSchema.virtual('confirmPassword')
 
 // Hash PSWD before saving
 UserSchema.pre('save', function (next) {
+  if (!this.isModified('password')) return next();
   bcrypt.hash(this.password, 10)
     .then(hash => {
-      this.password = hash;
+      this.password = hash
       next();
     });
 });

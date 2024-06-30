@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import followIcon from '../assets/images/followLinkIcon.png'
 import settings from '../assets/images/settings.png'
 import messages from '../assets/images/messages.png'
@@ -7,12 +7,35 @@ import trophy from '../assets/images/trophy.png'
 import friends from '../assets/images/friends.png'
 import profile from '../assets/images/profile.png'
 import { userContext } from "../context/userContext"
-import { useContext, useEffect } from "react"
+import { useContext, useEffect, useState } from "react"
 import { getUserByID } from "../services/user.services"
+import { getAllGames } from "../services/game.services"
+import { getAllLounges, joinLounge } from "../services/lounge.services"
 
 export const Dashboard = () => {
     const { user, setUser } = useContext(userContext)
     const id = window.localStorage.getItem('Logged in user id')
+    const [games, setGames] = useState([]);
+    const [lounges, setLounges] = useState([]);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        getAllGames()
+            .then(setGames)
+            .catch(console.log);
+        getAllLounges()
+            .then(setLounges)
+            .catch(console.log);
+    }, [id])
+
+    const joinLoungeFunction = (loungeId) => {
+        joinLounge(loungeId)
+            .then(() => {
+                navigate('/lounges')
+            })
+            .catch(err => console.log(err))
+    }
 
     return (
         <>
@@ -53,9 +76,9 @@ export const Dashboard = () => {
                                     <img src={trophy} alt="Trophies" />
                                 </Link>
                                 <Link
-                                    to={'/'}
+                                    to={'/friends'}
                                     className="friendsLink dashSocialLink"
-                                    data-tooltip="Friends (COMING SOON)"
+                                    data-tooltip="Friends"
                                 >
                                     <img src={friends} alt="Friends" />
                                 </Link>
@@ -95,6 +118,18 @@ export const Dashboard = () => {
                             >
                                 <img src={followIcon} alt="Follow Link Icon" />
                             </Link>
+                            <div className="gameList">
+                                {games.map(game => (
+                                    <div key={game._id} className="gameItem">
+                                        <img src={game.iconUrl} alt="Game Icon" className="gameIcon" />
+                                        <div className="gameDetails">
+                                            <h2>{game.name}</h2>
+                                            <p>{game.description}</p>
+                                            <Link to={`/play/game/${game._id}`} className="playLink">PLAY</Link>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                         <div className="dashLounges">
                             <p>Lounges</p>
@@ -104,6 +139,16 @@ export const Dashboard = () => {
                             >
                                 <img src={followIcon} alt="Follow Link Icon" />
                             </Link>
+                            <div className="loungeList">
+                                {lounges.map(lounge => (
+                                    <div key={lounge._id} className="loungeItem">
+                                        <h2>{lounge.name}</h2>
+                                        <div className="loungeActions">
+                                            <Link to={`/lounges/${lounge._id}`} className="viewLink">View</Link>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div> </>) : (
                 <>

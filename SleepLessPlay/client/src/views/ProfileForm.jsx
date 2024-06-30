@@ -14,7 +14,7 @@ export const ProfileForm = ({ submitFunction }) => {
         lName: '',
         email: '',
         bio: '',
-        avatar: ''
+        // avatar: ''
     })
 
     // Server Errors
@@ -42,12 +42,12 @@ export const ProfileForm = ({ submitFunction }) => {
 
 
     const updateUserData = e => {
-        const { className, value, files } = e.target;
+        const { className, value } = e.target;
         let errormsg = '';
 
         setUserData(prev => ({
             ...prev,
-            [className]: files ? files[0] : value
+            [className]: value
         }
         ))
 
@@ -103,7 +103,7 @@ export const ProfileForm = ({ submitFunction }) => {
 
     // Handle our submit
     const submitHandler = e => {
-        e.preventDefault()
+        e.preventDefault();
 
         submitFunction(userData)
             .then(res => {
@@ -120,14 +120,14 @@ export const ProfileForm = ({ submitFunction }) => {
         <div className="profileFormContainer">
             <form className="profileForm" onSubmit={submitHandler}>
                 {/* Profile Picture Input */}
-                <label>
+                {/* <label>
                     User Avatar:
                     <input
                         type="file"
                         className="avatar"
                         onChange={updateUserData}
                     />
-                </label>
+                </label> */}
                 {/* Username Input */}
                 <label>
                     Username:

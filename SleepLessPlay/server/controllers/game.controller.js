@@ -39,6 +39,20 @@ export const getAllGames = async (req, res, next) => {
   }
 }
 
+export const searchGames = async (req, res, next) => {
+  try {
+    const { q } = req.query;
+    // Case-insensitive search
+    const searchQuery = q ? { name: new RegExp(q, 'i') } : {};
+    const allGames = await Game.find(searchQuery);
+    res.status(200).json(allGames);
+  } catch (err) {
+    console.log(err);
+    res.status(400).json(err);
+    next(err);
+  }
+};
+
 export const getGameByID = async (req, res, next) => {
   const { id } = req.params
   try {
@@ -84,4 +98,4 @@ export const deleteGameByID = async (req, res, next) => {
     res.status(400).json(err);
     next(err)
   }
-};
+}

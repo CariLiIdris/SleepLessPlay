@@ -25,6 +25,16 @@ export const getAllGames = async () => {
   catch (err) { throw err }
 }
 
+export const searchGames = async (query = '') => {
+  try {
+    const res = await GAME_INSTANCE.get('/games', {
+      params: { q: query }
+    })
+    return res.data
+  }
+  catch (err) { throw err }
+}
+
 export const getGameByID = async gameId => {
   try {
     const res = await GAME_INSTANCE.get(`/games/${gameId}`);
@@ -36,7 +46,7 @@ export const getGameByID = async gameId => {
 // U
 export const updateGameByID = async (id, gameData) => {
   try {
-    const res = await GAME_INSTANCE.put(`/games/${id}`, gameData);
+    const res = await GAME_INSTANCE.put(`/games/${id}/update`, gameData);
     return res.data;
   }
   catch (err) { throw err }

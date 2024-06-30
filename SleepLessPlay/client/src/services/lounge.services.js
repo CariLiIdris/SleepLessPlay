@@ -54,6 +54,16 @@ export const getAllLounges = async () => {
     }
     catch (err) { throw err }
 }
+
+export const searchLounges = async (query = '') => {
+    try {
+        const res = await LOUNGE_INSTANCE.get('/lounges', {
+            params: { q: query }
+        })
+        return res.data;
+    }
+    catch (err) { throw err }
+}
 // U
 export const updateLoungeByID = async loungeData => {
     try {

@@ -36,9 +36,9 @@ export const SocialBar = () => {
                     <img src={trophy} alt="Trophy Icon" />
                 </Link>
                 <Link
-                    to={'/'}
+                    to={'/friends'}
                     className="friendsLink socialIconLink"
-                    data-tooltip="Friends (COMING SOON)"
+                    data-tooltip="Friends"
                 >
                     <img src={friends} alt="Friends Icon" />
                 </Link>

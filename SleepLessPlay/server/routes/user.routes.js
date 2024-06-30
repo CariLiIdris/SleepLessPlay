@@ -6,7 +6,10 @@ import {
     updateUserByID,
     deleteUserByID,
     logout,
-    login
+    login,
+    getUserByUsername,
+    addFriend,
+    // upload
 } from "../controllers/user.controller.js"
 import { authenticate } from '../config/jwt.config.js'
 
@@ -19,6 +22,9 @@ router.route('/users')
 router.route('/users/:id')
     .get(getUserByID)
 
+router.route('/users/username/:username')
+    .get(getUserByUsername)
+
 router.route('/user/:id/delete')
     .delete(deleteUserByID)
 
@@ -30,5 +36,8 @@ router.route('/users/logout')
 
 router.route('/users/login')
     .post(login)
+
+router.route('/users/:id/addFriend')
+    .put(authenticate, addFriend);
 
 export default router

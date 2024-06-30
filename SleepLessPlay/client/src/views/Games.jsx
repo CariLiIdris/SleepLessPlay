@@ -14,22 +14,17 @@ export const Games = () => {
 
   return (
     <div className="gamesContainer">
-      <h1>Games</h1>
+      <Link to={'/dashboard'} className="backLink">Home</Link>
       <div className="gameList">
         {games.map(game => (
           <div key={game._id} className="gameItem">
             <h2>{game.name}</h2>
             <p>{game.description}</p>
-            <iframe
-              src={game.url}
-              width="100%"
-              height="700px"
-              title={game.name}
-              style={{ border: 'none' }}
-            ></iframe>
+            <img src={game.iconUrl} alt="Game Icon" className="gameIcon" />
+            <Link to={`/play/game/${game._id}`} className="playLink">PLAY</Link>
           </div>
         ))}
       </div>
     </div>
-  );
-};
+  )
+}

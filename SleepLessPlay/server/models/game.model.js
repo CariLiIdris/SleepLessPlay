@@ -20,6 +20,10 @@ export const GameSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'User',
     required: [true, 'A game must have a dev']
+  },
+  iconUrl: {
+    type: String,
+    trim: true,
   }
 }, { timestamps: true });
 

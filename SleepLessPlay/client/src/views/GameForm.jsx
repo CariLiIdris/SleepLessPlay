@@ -8,7 +8,8 @@ export const GameForm = () => {
   const [gameData, setGameData] = useState({
     name: '',
     url: '',
-    description: ''
+    description: '',
+    iconUrl: ''
   });
 
   const [gameErr, setGameErr] = useState({});
@@ -21,7 +22,14 @@ export const GameForm = () => {
   useEffect(() => {
     if (id) {
       getGameByID(id)
-        .then(res => setGameData(res))
+        .then(res => {
+          setGameData(res)
+          setFormErrors({
+            name: '',
+            url: '',
+            description: ''
+          })
+        })
         .catch(err => console.log(err));
     }
   }, [id]);
@@ -109,6 +117,18 @@ export const GameForm = () => {
         </label>
         <p className="error">{gameErr?.validationErrors?.url}</p>
         <p className="error">{formErrors?.url}</p>
+
+        <label>
+          Icon URL:
+          <input
+            type="text"
+            className="iconUrl"
+            value={gameData.iconUrl}
+            onChange={updateGameData}
+          />
+        </label>
+        <p className="error">{gameErr?.validationErrors?.iconUrl}</p>
+        <p className="error">{formErrors?.iconUrl}</p>
 
         <label>
           Game Description:

@@ -2,9 +2,15 @@ import { model, Schema } from "mongoose";
 
 const PostSchema = new Schema({
     author: {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-        required: [true, 'A post must have an author']
+        id: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
+            required: [true, 'A post must have an author']
+        },
+        username: {
+            type: String,
+            required: [true, 'Author username is required']
+        }
     },
     lounge: {
         type: Schema.Types.ObjectId,
