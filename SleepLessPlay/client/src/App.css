@@ -9,6 +9,7 @@ input {
   font-family: "Bitcell";
 }
 
+/* General links style */
 a {
   color: #ffc500;
   text-decoration: none;
@@ -755,7 +756,9 @@ a:visited:hover {
   color: #43ff3c;
 }
 
-.profileForm .submitBttn:disabled {
+.profileForm .submitBttn:disabled,
+.loungePostFormDisplay .submitBttn:disabled
+{
   background-color: #444;
   color: #999;
   cursor: not-allowed;
@@ -895,7 +898,10 @@ a:visited:hover {
   gap: 10px;
 }
 
-.loungePosts .post .postActions button {
+.loungePosts .post .postActions button,
+.submitBttn,
+.cancelBttn
+{
   padding: 5px 10px;
   font-size: 0.8em;
   font-family: "Bitcell";
@@ -905,22 +911,30 @@ a:visited:hover {
   transition: background-color 0.3s, color 0.3s;
 }
 
-.loungePosts .post .postActions button.editBttn {
+.loungePosts .post .postActions button.editBttn,
+.submitBttn
+{
   background-color: #ffc500;
   color: #2d2d2d;
 }
 
-.loungePosts .post .postActions button.editBttn:hover {
+.loungePosts .post .postActions button.editBttn:hover,
+.submitBttn:hover
+{
   background-color: #2d2d2d;
   color: #ffc500;
 }
 
-.loungePosts .post .postActions button.deleteBttn {
+.loungePosts .post .postActions button.deleteBttn,
+.cancelBttn
+{
   background-color: #ea5351;
   color: #fff;
 }
 
-.loungePosts .post .postActions button.deleteBttn:hover {
+.loungePosts .post .postActions button.deleteBttn:hover,
+.cancelBttn:hover
+{
   background-color: #2d2d2d;
   color: #ea5351;
 }

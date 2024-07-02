@@ -12,6 +12,7 @@ import { debounce } from 'lodash'
 
 // eslint-disable-next-line react/prop-types
 export const Navbar = ({ submitFunction }) => {
+    // Const Declarations
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const { user } = useContext(userContext)
     const [searchInput, setSearchInput] = useState('')
@@ -21,12 +22,14 @@ export const Navbar = ({ submitFunction }) => {
 
     const navigate = useNavigate();
 
+    // Chech if the user is signed in 
     useEffect(() => {
         if (user._id) {
             setIsLoggedIn(true)
         }
     }, [user._id])
 
+    // Fetch data for search bar
     useEffect(() => {
         const fetchData = async () => {
             try {

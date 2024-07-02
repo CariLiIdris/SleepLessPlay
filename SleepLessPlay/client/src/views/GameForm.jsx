@@ -5,6 +5,7 @@ import { getGameByID, createGame, updateGameByID } from '../services/game.servic
 export const GameForm = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  // Game data
   const [gameData, setGameData] = useState({
     name: '',
     url: '',
@@ -12,18 +13,22 @@ export const GameForm = () => {
     iconUrl: ''
   });
 
+  // Front end errors
   const [gameErr, setGameErr] = useState({});
+  // Back end errors
   const [formErrors, setFormErrors] = useState({
     name: 'A game needs a name',
     url: 'Please provide a URL for your game',
     description: 'Please give your game a description!'
   });
 
+  // Get game by id
   useEffect(() => {
     if (id) {
       getGameByID(id)
         .then(res => {
           setGameData(res)
+          // If data is found reset errors
           setFormErrors({
             name: '',
             url: '',
@@ -34,6 +39,7 @@ export const GameForm = () => {
     }
   }, [id]);
 
+  // Handle inputs and errors
   const updateGameData = e => {
     const { className, value } = e.target;
     let errormsg = '';
@@ -69,31 +75,38 @@ export const GameForm = () => {
     }
   };
 
+  // Validate front end errors for submit
   const validateForm = () => {
     return Object.values(formErrors).every(value => value === '');
   };
 
+  // Submit handler
   const submitHandler = e => {
     e.preventDefault();
 
+    // If we are updating use update instead of create
     if (id) {
       updateGameByID(id, gameData)
         .then(() => {
           navigate('/games');
         })
-        .catch(error => setGameErr(error.response.data));
-    } else {
+        .catch(error => setGameErr(error.response.data.errors));
+    }
+    // Otherwise vise versa
+    else {
       createGame(gameData)
         .then(() => {
           navigate('/games');
         })
-        .catch(error => setGameErr(error.response.data));
+        .catch(error => setGameErr(error.response.data.errors));
     }
   }
 
   return (
     <div className="gameFormContainer">
+      {/* Form */}
       <form onSubmit={submitHandler} className="gameForm">
+        {/* Name */}
         <label>
           Game Title:
           <input
@@ -103,9 +116,9 @@ export const GameForm = () => {
             onChange={updateGameData}
           />
         </label>
-        <p className="error">{gameErr?.validationErrors?.name}</p>
+        <p className="error">{gameErr.name?.message}</p>
         <p className="error">{formErrors?.name}</p>
-
+        {/* Game Url */}
         <label>
           Game URL:
           <input
@@ -115,9 +128,9 @@ export const GameForm = () => {
             onChange={updateGameData}
           />
         </label>
-        <p className="error">{gameErr?.validationErrors?.url}</p>
+        <p className="error">{gameErr.url?.message}</p>
         <p className="error">{formErrors?.url}</p>
-
+        {/* Game Icon */}
         <label>
           Icon URL:
           <input
@@ -127,9 +140,9 @@ export const GameForm = () => {
             onChange={updateGameData}
           />
         </label>
-        <p className="error">{gameErr?.validationErrors?.iconUrl}</p>
+        <p className="error">{gameErr.iconUrl?.message}</p>
         <p className="error">{formErrors?.iconUrl}</p>
-
+        {/* Game description */}
         <label>
           Game Description:
           <textarea
@@ -140,9 +153,10 @@ export const GameForm = () => {
             onChange={updateGameData}
           ></textarea>
         </label>
-        <p className="error">{gameErr?.validationErrors?.description}</p>
+        <p className="error">{gameErr.description?.message}</p>
         <p className="error">{formErrors?.description}</p>
 
+        {/* Submit button */}
         <button
           type="submit"
           className="submitBttn"

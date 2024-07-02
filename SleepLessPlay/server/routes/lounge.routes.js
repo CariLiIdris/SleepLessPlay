@@ -3,10 +3,8 @@ import {
     createLounge,
     getAllLounges,
     getLoungeByID,
-    getLoungeByName,
     updateLoungeByID,
     deleteLoungeByID,
-    getLoungeByAdmin,
     getLoungeByMember,
     joinLounge
 } from '../controllers/lounge.controller.js'

@@ -5,9 +5,8 @@ import {
 } from 'react-router-dom'
 import { userContext } from "../context/userContext"
 
-// eslint-disable-next-line react/prop-types
 export const UserForm = ({ submitFunction }) => {
-    const { user, setUser, storeIdInLocalStorage } = useContext(userContext)
+    const { setUser, storeIdInLocalStorage } = useContext(userContext)
     // useState to for two way binding
     const [userData, setUserData] = useState({
         username: '',
@@ -45,8 +44,9 @@ export const UserForm = ({ submitFunction }) => {
                 storeIdInLocalStorage(res.user._id)
             })
             .catch(error => {
-                console.log(error)
-                setUserErr(error.response.data)
+                // console.log(error)
+                // console.log('User error', error.response.data.errors)
+                setUserErr(error.response.data.errors)
             })
     }
 
@@ -55,6 +55,7 @@ export const UserForm = ({ submitFunction }) => {
         return Object.values(formErrors).every(value => value === '')
     }
 
+    // Handle inputs and errors
     const updateUserData = e => {
         const { className, value } = e.target;
         let errormsg = '';
@@ -125,7 +126,7 @@ export const UserForm = ({ submitFunction }) => {
                 <label>
                     Username:
                     {/* Backend Validations */}
-                    <p> {userErr?.validationErrors?.username} </p>
+                    <p> {userErr.username?.message} </p>
                     {/* Frontend Validations */}
                     <p> {formErrors?.username} </p>
                     <input
@@ -141,7 +142,7 @@ export const UserForm = ({ submitFunction }) => {
                 <label>
                     First Name:
                     {/* Backend Validations */}
-                    <p> {userErr.validationErrors?.fName} </p>
+                    <p> {userErr.fName?.message} </p>
                     {/* Frontend Validations */}
                     <p> {formErrors?.fName} </p>
                     <input
@@ -157,7 +158,7 @@ export const UserForm = ({ submitFunction }) => {
                 <label>
                     Last Name:
                     {/* Backend Validations */}
-                    <p> {userErr.validationErrors?.lName} </p>
+                    <p> {userErr.lName?.message} </p>
                     {/* Frontend Validations */}
                     <p> {formErrors?.lName} </p>
                     <input
@@ -173,7 +174,7 @@ export const UserForm = ({ submitFunction }) => {
                 <label>
                     Email:
                     {/* Backend Validations */}
-                    <p> {userErr.validationErrors?.email} </p>
+                    <p> {userErr.email?.message} </p>
                     {/* Frontend Validations */}
                     <p> {formErrors?.email} </p>
                     <input
@@ -189,7 +190,7 @@ export const UserForm = ({ submitFunction }) => {
                 <label>
                     Password:
                     {/* Backend Validations */}
-                    <p> {userErr.validationErrors?.password} </p>
+                    <p> {userErr.password?.message} </p>
                     {/* Frontend Validations */}
                     <p> {formErrors?.password} </p>
                     <input
@@ -205,7 +206,7 @@ export const UserForm = ({ submitFunction }) => {
                 <label>
                     Confirm Password:
                     {/* Backend Validations */}
-                    <p> {userErr.validationErrors?.confirmPassword} </p>
+                    <p> {userErr.confirmPassword?.message} </p>
                     {/* Frontend Validations */}
                     <p> {formErrors?.confirmPassword} </p>
                     <input

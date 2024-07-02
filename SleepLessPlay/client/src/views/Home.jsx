@@ -1,7 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect } from "react"
 import { Link } from "react-router-dom"
-import { getUserByID } from "../services/user.services"
 
 export const Home = () => {
 

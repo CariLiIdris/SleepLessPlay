@@ -2,8 +2,8 @@ import axios from 'axios';
 import User from "../models/user.model.js";
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import multer from 'multer';
-import path from 'path'
+// import multer from 'multer';
+// import path from 'path'
 
 // // Storage
 // const Storage = multer.diskStorage({
@@ -181,7 +181,7 @@ export const login = async (req, res, next) => {
         res.cookie('userToken', userToken);
         return res.status(200).json(possibleUser);
     } catch (error) {
-        return res.status(500).json({ errormsg: 'Server error' });
+        return res.status(400).json({ errormsg: 'Server error' });
     }
 }
 

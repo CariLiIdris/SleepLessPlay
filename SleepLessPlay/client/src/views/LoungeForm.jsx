@@ -10,7 +10,7 @@ import { getLoungeByID } from "../services/lounge.services";
 
 // eslint-disable-next-line react/prop-types
 export const LoungeForm = ({ submitFunction }) => {
-  const { user, setUser, storeIdInLocalStorage } = useContext(userContext)
+  const { user } = useContext(userContext)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const { id } = useParams();
@@ -32,17 +32,23 @@ export const LoungeForm = ({ submitFunction }) => {
   //Nav Shorthand
   const navigate = useNavigate();
 
+  // If a user is signed in set logged in to true
   useEffect(() => {
     if (user._id) {
       setIsLoggedIn(true)
     }
   }, [user._id]);
 
+  // Get lounge by id
   useEffect(() => {
     if (id) (
       getLoungeByID(id)
         .then(res => {
           setLoungedata(res)
+          setFormErrors({
+            name: '',
+            description: ''
+          })
         })
     )
   }, [id])
@@ -68,6 +74,7 @@ export const LoungeForm = ({ submitFunction }) => {
     return Object.values(formErrors).every(value => value === '')
   }
 
+  // handle inputs and errors
   const updateLoungeData = e => {
     const { className, value } = e.target;
     let errormsg = '';
@@ -101,8 +108,11 @@ export const LoungeForm = ({ submitFunction }) => {
     <>
       <div className="loungeFormContainer">
         <form onSubmit={submitHandler} className="loungeForm">
+          {/* Name input */}
           <label>
             Lounge Name:
+            <p className="error">{loungeErr?.validationErrors?.name}</p>
+            <p className="error">{formErrors?.name}</p>
             <input
               type="text"
               className="name"
@@ -110,11 +120,12 @@ export const LoungeForm = ({ submitFunction }) => {
               onChange={updateLoungeData}
             />
           </label>
-          <p className="error">{loungeErr?.validationErrors?.name}</p>
-          <p className="error">{formErrors?.name}</p>
 
+          {/* Description input */}
           <label>
             Lounge Description:
+            <p className="error">{loungeErr?.validationErrors?.description}</p>
+            <p className="error">{formErrors?.description}</p>
             <textarea
               rows="8"
               cols="50"
@@ -123,9 +134,8 @@ export const LoungeForm = ({ submitFunction }) => {
               onChange={updateLoungeData}
             ></textarea>
           </label>
-          <p className="error">{loungeErr?.validationErrors?.description}</p>
-          <p className="error">{formErrors?.description}</p>
 
+          {/* Submit bttn */}
           <button
             type="submit"
             className="submitBttn"
@@ -133,6 +143,7 @@ export const LoungeForm = ({ submitFunction }) => {
           >
             {id ? 'Update Lounge' : 'Create Lounge'}
           </button>
+          {/* Cancel link */}
           <Link to="/lounges" className="cancelLink">Cancel</Link>
         </form>
       </div>

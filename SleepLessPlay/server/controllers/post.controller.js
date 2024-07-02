@@ -1,5 +1,4 @@
 import Post from "../models/post.model.js";
-import Lounge from "../models/lounge.model.js";
 import jwt from 'jsonwebtoken'
 import User from "../models/user.model.js";
 

@@ -2,8 +2,8 @@
 import { SocialBar } from "../components/SocialBar";
 import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { getLoungeByMember, getAllLounges } from "../services/lounge.services";
-import { createPost, getAllPostsByLounge, updatePostByID } from "../services/post.services";
+import { getAllLounges } from "../services/lounge.services";
+import { createPost, getAllPostsByLounge } from "../services/post.services";
 import { userContext } from '../context/userContext';
 
 export const Lounges = () => {
@@ -15,6 +15,7 @@ export const Lounges = () => {
   //Nav Shorthand
   const navigate = useNavigate();
 
+  // Post data
   const [postData, setPostData] = useState({
     lounge: '',
     content: ''
@@ -28,6 +29,7 @@ export const Lounges = () => {
     content: 'A post must have content!'
   })
 
+  // Filter users lounges 
   const filterUserLounges = (lounges, userId) => {
     const filteredLounges = lounges.filter(lounge =>
       lounge.owner?.id === userId ||
@@ -38,6 +40,7 @@ export const Lounges = () => {
     setUserLounges(filteredLounges);
   };
 
+  // Get all posts for users lounges
   const getPostsForUserLounges = lounges => {
     const postsPromises = lounges.map(async lounge => {
       const posts = await getAllPostsByLounge(lounge._id);
@@ -81,7 +84,7 @@ export const Lounges = () => {
     e.preventDefault();
 
     createPost(postData)
-      .then(res => {
+      .then(() => {
         window.location.reload()
       })
       .catch(err => {
@@ -95,6 +98,7 @@ export const Lounges = () => {
     return Object.values(formErrors).every(value => value === '')
   }
 
+  // Handle inputs and errors
   const updatePostData = e => {
     const { className, value } = e.target;
     let errormsg = '';
@@ -124,10 +128,12 @@ export const Lounges = () => {
     <>
       <SocialBar />
       <div className="loungeContainer">
+        {/* Create lounge link */}
         <Link to={'/lounge/create'} className="createLoungeButton">Create A Lounge</Link>
 
         <h1 className="pageTitle">Join The Discourse</h1>
         <form className="loungePostForm" onSubmit={submitHandler}>
+          {/* Lounge input */}
           <label>
             Lounge
             <select
@@ -148,7 +154,9 @@ export const Lounges = () => {
           <p className="error"> {postErr.validationErrors?.lounge} </p>
           {/* Frontend Validations */}
           <p className="error"> {formErrors?.lounge} </p>
+
           <div>
+            {/* Post input */}
             <label>
               Begin Your Post
               <textarea
@@ -163,6 +171,7 @@ export const Lounges = () => {
             <p className="error"> {postErr.validationErrors?.content} </p>
             {/* Frontend Validations */}
             <p className="error"> {formErrors?.content} </p>
+            {/* Submit bttn */}
             <button
               type="submit"
               className="submitBttn"
@@ -172,10 +181,13 @@ export const Lounges = () => {
             </button>
           </div>
         </form>
+
         <div className="loungeContent">
+          {/* user lounges */}
           <div className="loungeLeft">
             <p className="sectionTitle">Your Lounges</p>
             <div className="userLoungeContainer">
+              {/* Lounges list */}
               {userLounges?.map(lounge => (
                 <div key={lounge._id} className="loungeCard">
                   <h3 className="loungeCardTitle"><Link to={`/lounges/${lounge._id}`}>{lounge.name}</Link></h3>
@@ -184,7 +196,9 @@ export const Lounges = () => {
                   {lounge.owner.username === user.username && (
                     <Link to={`/lounge/${lounge._id}/edit`} className="editLink">Edit</Link>
                   )}
+
                   <div className="posts">
+                    {/* All posts display */}
                     {allPosts[lounge._id]?.map(post => (
                       <div key={post._id} className="postCard">
                         <p className="postTitle">{post.title}</p>
@@ -196,13 +210,17 @@ export const Lounges = () => {
               ))}
             </div>
           </div>
+
           <div className="loungeRight">
+            {/* All lounges */}
             <p className="sectionTitle">Discover</p>
             <div className="publicLoungeContainer">
+              {/* All lounge lists */}
               {allLounges.map(lounge => (
                 <div key={lounge._id} className="loungeCard">
                   <h3 className="loungeCardTitle">{lounge.name}</h3>
                   <p className="loungeCardDescription">{lounge.description}</p>
+                  {/* Lounge display link */}
                   <Link to={`/lounges/${lounge._id}`} className="seeMoreLink">See more...</Link>
                 </div>
               ))}

@@ -40,7 +40,7 @@ export const ProfileForm = ({ submitFunction }) => {
             .catch(err => console.log(err))
     }, [id])
 
-
+    // Handle inputs and errors
     const updateUserData = e => {
         const { className, value } = e.target;
         let errormsg = '';
@@ -142,6 +142,7 @@ export const ProfileForm = ({ submitFunction }) => {
                 <p> {userErr.validationErrors?.username} </p>
                 {/* Frontend Validations */}
                 <p> {formErrors?.username} </p>
+
                 {/* FName Input */}
                 <label>
                     First Name:
@@ -156,6 +157,7 @@ export const ProfileForm = ({ submitFunction }) => {
                 <p> {userErr.validationErrors?.fName} </p>
                 {/* Frontend Validations */}
                 <p> {formErrors?.fName} </p>
+
                 {/* LName Input */}
                 <label>
                     Last Name:
@@ -170,6 +172,7 @@ export const ProfileForm = ({ submitFunction }) => {
                 <p> {userErr.validationErrors?.lName} </p>
                 {/* Frontend Validations */}
                 <p> {formErrors?.lName} </p>
+
                 {/* Email Input */}
                 <label>
                     Email:
@@ -184,6 +187,8 @@ export const ProfileForm = ({ submitFunction }) => {
                 <p> {userErr.validationErrors?.email} </p>
                 {/* Frontend Validations */}
                 <p> {formErrors?.email} </p>
+
+                {/* Bio input */}
                 <label>
                     Bio:
                     <textarea

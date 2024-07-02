@@ -8,18 +8,18 @@ import friends from '../assets/images/friends.png'
 import profile from '../assets/images/profile.png'
 import { userContext } from "../context/userContext"
 import { useContext, useEffect, useState } from "react"
-import { getUserByID } from "../services/user.services"
 import { getAllGames } from "../services/game.services"
 import { getAllLounges, joinLounge } from "../services/lounge.services"
 
 export const Dashboard = () => {
-    const { user, setUser } = useContext(userContext)
+    const { user } = useContext(userContext)
     const id = window.localStorage.getItem('Logged in user id')
     const [games, setGames] = useState([]);
     const [lounges, setLounges] = useState([]);
 
     const navigate = useNavigate();
 
+    // Get all games and lounges
     useEffect(() => {
         getAllGames()
             .then(setGames)
@@ -29,22 +29,26 @@ export const Dashboard = () => {
             .catch(console.log);
     }, [id])
 
-    const joinLoungeFunction = (loungeId) => {
-        joinLounge(loungeId)
-            .then(() => {
-                navigate('/lounges')
-            })
-            .catch(err => console.log(err))
-    }
+    // const joinLoungeFunction = (loungeId) => {
+    //     joinLounge(loungeId)
+    //         .then(() => {
+    //             navigate('/lounges')
+    //         })
+    //         .catch(err => console.log(err))
+    // }
 
     return (
         <>
+            {/* If the user is signed in display normal page */}
             {id ? (
                 <>
                     <p className="userGreeting">Welcome {user?.username} </p>
+
                     <div className="upperDashContainer">
                         <div className="socials">
                             <div className="upperSocial">
+
+                                {/* Social Link */}
                                 <p>Socials</p>
                                 <Link
                                     to={'/'}
@@ -53,7 +57,9 @@ export const Dashboard = () => {
                                     <img src={followIcon} alt="Follow Link Icon" />
                                 </Link>
                             </div>
+
                             <div className="lowerSocial">
+                                {/* Settings link */}
                                 <Link
                                     to={'/'}
                                     className="settingsLink dashSocialLink"
@@ -61,6 +67,7 @@ export const Dashboard = () => {
                                 >
                                     <img src={settings} alt="Settings" />
                                 </Link>
+                                {/* Messages link */}
                                 <Link
                                     to={'/messages'}
                                     className="messagesLink dashSocialLink"
@@ -68,6 +75,7 @@ export const Dashboard = () => {
                                 >
                                     <img src={messages} alt="Messages" />
                                 </Link>
+                                {/* Trophy link */}
                                 <Link
                                     to={'/'}
                                     className="trophyLink dashSocialLink"
@@ -75,6 +83,7 @@ export const Dashboard = () => {
                                 >
                                     <img src={trophy} alt="Trophies" />
                                 </Link>
+                                {/* Friend link */}
                                 <Link
                                     to={'/friends'}
                                     className="friendsLink dashSocialLink"
@@ -82,6 +91,7 @@ export const Dashboard = () => {
                                 >
                                     <img src={friends} alt="Friends" />
                                 </Link>
+                                {/* Profile link */}
                                 <Link
                                     to={`/user/${user?.username}`}
                                     className="profileLink dashSocialLink"
@@ -91,12 +101,15 @@ export const Dashboard = () => {
                                 </Link>
                             </div>
                         </div>
+
                         <div className="news">
                             <p>News Coming Soon!!!!</p>
                         </div>
+
                         <div className="leaderboards">
                             <div className="upperLeaderboard">
                                 <p>Leaderboards</p>
+                                {/* Leaderboard link */}
                                 <Link
                                     to={'/'}
                                     className="leaderboardLink"
@@ -104,20 +117,24 @@ export const Dashboard = () => {
                                     <img src={followIcon} alt="Follow Link Icon" />
                                 </Link>
                             </div>
+
                             <div className="lowerLeaderboard">
                                 <p>Coming Soon!</p>
                             </div>
                         </div>
+
                     </div>
                     <div className="lowerDashContainer">
                         <div className="dashGames">
                             <p>Games</p>
+                            {/* Games link */}
                             <Link
                                 to={'/games'}
                                 className="gameLink"
                             >
                                 <img src={followIcon} alt="Follow Link Icon" />
                             </Link>
+                            {/* Games list */}
                             <div className="gameList">
                                 {games.map(game => (
                                     <div key={game._id} className="gameItem">
@@ -131,15 +148,19 @@ export const Dashboard = () => {
                                 ))}
                             </div>
                         </div>
+
                         <div className="dashLounges">
                             <p>Lounges</p>
+                            {/* Lounges link */}
                             <Link
                                 to={'/lounges'}
                                 className="loungeLink"
                             >
                                 <img src={followIcon} alt="Follow Link Icon" />
                             </Link>
+
                             <div className="loungeList">
+                                {/* Lounges list */}
                                 {lounges.map(lounge => (
                                     <div key={lounge._id} className="loungeItem">
                                         <h2>{lounge.name}</h2>
@@ -150,6 +171,7 @@ export const Dashboard = () => {
                                 ))}
                             </div>
                         </div>
+                        {/* If the user is not signed in prompt them to do so */}
                     </div> </>) : (
                 <>
                     <p>Please sign up or log in to access this page!</p>

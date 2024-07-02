@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 export const Games = () => {
   const [games, setGames] = useState([]);
 
+  // Get all games
   useEffect(() => {
     getAllGames()
       .then(res => setGames(res))
@@ -14,8 +15,10 @@ export const Games = () => {
 
   return (
     <div className="gamesContainer">
+      {/* Return link */}
       <Link to={'/dashboard'} className="backLink">Home</Link>
       <div className="gameList">
+        {/* Games link */}
         {games.map(game => (
           <div key={game._id} className="gameItem">
             <h2>{game.name}</h2>

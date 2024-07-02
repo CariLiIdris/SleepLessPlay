@@ -6,7 +6,6 @@ import {
   updateGameByID,
   deleteGameByID,
 } from '../controllers/game.controller.js';
-import { authenticate } from '../config/jwt.config.js'
 
 const gameRouter = Router()
 

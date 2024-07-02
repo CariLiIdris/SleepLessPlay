@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-catch */
 import axios from 'axios'
 
+// axios base url instance
 const LOUNGE_INSTANCE = axios.create({
     baseURL: "http://localhost:8002/lounges",
     withCredentials: true
@@ -82,6 +83,7 @@ export const deleteLoungeByID = async id => {
     catch (err) { throw err }
 }
 
+// Join lounge
 export const joinLounge = async loungeId => {
     try {
         const res = await LOUNGE_INSTANCE.post(`/lounge/join/${loungeId}`)

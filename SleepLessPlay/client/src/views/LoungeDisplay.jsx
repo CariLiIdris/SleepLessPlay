@@ -1,20 +1,36 @@
 /* eslint-disable no-unused-vars */
 import { userContext } from "../context/userContext";
-import { useContext, useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { deleteLoungeByID, getLoungeByID } from "../services/lounge.services";
+import {
+  useContext,
+  useEffect,
+  useState
+} from "react";
+import {
+  Link, useNavigate,
+  useParams
+} from "react-router-dom";
+import {
+  deleteLoungeByID,
+  getLoungeByID
+} from "../services/lounge.services";
 import { joinLounge } from "../services/lounge.services";
-import { createPost, getAllPostsByLounge, updatePostByID, deletePostByID } from "../services/post.services";
+import {
+  createPost,
+  getAllPostsByLounge,
+  updatePostByID,
+  deletePostByID
+} from "../services/post.services";
 import moment from 'moment'
 
 export const LoungeDisplay = () => {
   const { id } = useParams();
-  const { user, storeIdInLocalStorage } = useContext(userContext);
+  const { user } = useContext(userContext);
   const [lounge, setLounge] = useState({})
   const [posts, setPosts] = useState([])
   const [editPostData, setEditPostData] = useState({});
   const [isEditing, setIsEditing] = useState(null);
 
+  // Post data
   const [postData, setPostData] = useState({
     lounge: '',
     content: ''
@@ -30,6 +46,7 @@ export const LoungeDisplay = () => {
 
   const navigate = useNavigate();
 
+  // Get lounges and posts by id
   useEffect(() => {
     if (id) {
       getLoungeByID(id)
@@ -42,7 +59,8 @@ export const LoungeDisplay = () => {
     }
   }, [id])
 
-  const joinLoungeFunction = (loungeId) => {
+  // Join lounge function
+  const joinLoungeFunction = loungeId => {
     joinLounge(loungeId)
       .then(() => {
         navigate('/lounges')
@@ -50,7 +68,8 @@ export const LoungeDisplay = () => {
       .catch(err => console.log(err))
   }
 
-  const deleteHandler = (loungeId) => {
+  // Delete lounge function
+  const deleteHandler = loungeId => {
     deleteLoungeByID(loungeId)
       .then(() => {
         navigate('/lounges')
@@ -58,7 +77,8 @@ export const LoungeDisplay = () => {
       .catch(err => console.log(err))
   }
 
-  const deletePostHandler = (postId) => {
+  // Delete post handler
+  const deletePostHandler = postId => {
     deletePostByID(postId)
       .then(() => {
         setPosts(posts.filter(post => post._id !== postId));
@@ -66,12 +86,14 @@ export const LoungeDisplay = () => {
       .catch(err => console.log(err));
   };
 
-  const editPostHandler = (postId) => {
+  // Edit post handler
+  const editPostHandler = postId => {
     setIsEditing(postId);
     const postToEdit = posts.find(post => post._id === postId);
     setEditPostData(postToEdit);
   };
 
+  // Update post input
   const updatePostDataHandler = e => {
     const { name, value } = e.target;
     setEditPostData(prevData => ({
@@ -80,6 +102,7 @@ export const LoungeDisplay = () => {
     }));
   };
 
+  // Save post handler
   const saveEditPostHandler = e => {
     e.preventDefault();
     updatePostByID(isEditing, editPostData)
@@ -98,6 +121,7 @@ export const LoungeDisplay = () => {
     return Object.values(formErrors).every(value => value === '')
   }
 
+  // Update post input and errors
   const updatePostData = e => {
     const { className, value } = e.target;
     let errormsg = '';
@@ -128,32 +152,39 @@ export const LoungeDisplay = () => {
     e.preventDefault();
 
     createPost(postData)
-      .then(res => {
+      .then(() => {
         window.location.reload()
       })
       .catch(err => {
         console.log(err)
-        setPostErr(err.response.data)
+        setPostErr(err.response.data.errors)
       })
   }
 
   return (
     <>
       <div className="loungeDisplay">
+        {/* Return link */}
         <Link to="/lounges" className="closeButton">X</Link>
+
         <div className="loungeInfo">
           <h2 className="loungeName">{lounge.name}</h2>
           <p className="loungeDescription">{lounge.description}</p>
+
           <div className="loungeActions">
+            {/* If the user is not the owner or member allow them to join */}
             {(!isUserMember && lounge.owner?.username !== user.username) && (
               <button className="joinLoungeButton" onClick={() => joinLoungeFunction(lounge._id)}>Join Lounge</button>
             )}
+            {/* If the user is the leader allow them to delete */}
             {lounge.owner?.username === user.username && (
               <button className="deleteLoungeButton" onClick={() => deleteHandler(lounge._id)}>Delete Lounge</button>
             )}
           </div>
+          {/* If member or leader */}
           {(isUserMember || lounge.owner?.username === user.username) && (
             <form className="loungePostFormDisplay" onSubmit={submitHandler}>
+              {/* Lounge input */}
               <label>
                 Lounge
                 <p> {postErr.validationErrors?.lounge} </p>
@@ -170,7 +201,9 @@ export const LoungeDisplay = () => {
                   > {lounge.name} </option>
                 </select>
               </label>
+
               <div>
+                {/* Post input */}
                 <label>
                   Begin Your Post
                   <p> {postErr.validationErrors?.content} </p>
@@ -183,6 +216,7 @@ export const LoungeDisplay = () => {
                     value={postData.content}
                   ></textarea>
                 </label>
+                {/* Submit button */}
                 <button
                   type="submit"
                   className="submitBttn"
@@ -194,10 +228,12 @@ export const LoungeDisplay = () => {
             </form>
           )}
         </div>
+        {/* Lounge posts display */}
         <div className="loungePosts">
           {posts.map(post => (
             <div key={post._id} className="post">
               <p className="postAuthor">{post.author?.username}</p>
+              {/* If editing post, display form */}
               {isEditing === post._id ? (
                 <form onSubmit={saveEditPostHandler}>
                   <textarea
@@ -205,18 +241,22 @@ export const LoungeDisplay = () => {
                     value={editPostData.content}
                     onChange={updatePostDataHandler}
                   />
-                  <button type="submit">Save</button>
-                  <button type="button" onClick={() => setIsEditing(null)}>Cancel</button>
+                  <button type="submit" className="submitBttn">Save</button>
+                  <button type="button" className="cancelBttn" onClick={() => setIsEditing(null)}>Cancel</button>
                 </form>
-              ) : (
-                <p className="postContent">
-                  {post.content}
-                  <span className="postTime">{moment(post.createdAt).fromNow()}</span>
-                </p>
-              )}
+              )
+                : (
+                  <p className="postContent">
+                    {post.content}
+                    <span className="postTime">{moment(post.createdAt).fromNow()}</span>
+                  </p>
+                )}
+              {/* Posts */}
               {post.author.username === user.username && (
                 <div className="postActions">
+                  {/* Edit button */}
                   <button onClick={() => editPostHandler(post._id)} className="editBttn">Edit</button>
+                  {/* Delete button */}
                   <button onClick={() => deletePostHandler(post._id)} className="deleteBttn">Delete</button>
                 </div>
               )}

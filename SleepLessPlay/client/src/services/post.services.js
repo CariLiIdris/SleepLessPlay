@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-catch */
 import axios from "axios";
 
+// axios base url instance
 const POST_INSTANCE = axios.create({
   baseURL: "http://localhost:8002/posts",
   withCredentials: true

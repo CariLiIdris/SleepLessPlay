@@ -1,17 +1,18 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import { useState, useContext } from "react"
-import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { userContext } from "../context/userContext"
 import { Link } from "react-router-dom"
 
 export const LoginForm = ({ submitFunction }) => {
-    const { user, setUser, storeIdInLocalStorage } = useContext(userContext)
+    const { setUser, storeIdInLocalStorage } = useContext(userContext)
+    // User data
     const [activeUserData, setActiveUserData] = useState({
         username: '',
         password: ''
     })
+
     // Server Errors
     const [activeUserErr, setActiveUserErr] = useState({})
     // Client Errors
@@ -26,14 +27,18 @@ export const LoginForm = ({ submitFunction }) => {
         e.preventDefault();
 
         submitFunction(activeUserData)
+            // console.log(activeUserData)
             .then((res) => {
-                console.log(res)
+                // console.log(res)
                 setUser(res)
                 storeIdInLocalStorage(res._id)
                 navigate('/dashboard')
             })
             // .then(console.log(activeUserData))
-            .catch(error => setActiveUserErr(error.response.data))
+            .catch(error => {
+                setActiveUserErr(error.response.data)
+                console.log(error.response.data)
+            })
     }
 
     // Validations for front-end
@@ -41,6 +46,7 @@ export const LoginForm = ({ submitFunction }) => {
         return Object.values(formErrors).every(value => value === '')
     }
 
+    // Handle inputs and errors
     const updateActiveUserData = e => {
         const { className, value } = e.target;
         let errormsg = '';
@@ -72,8 +78,10 @@ export const LoginForm = ({ submitFunction }) => {
 
     return (
         <div className="loginFormContainer">
+            {/* Form */}
             <form className="loginForm" onSubmit={submitHandler}>
-                <p>{activeUserErr.validationErrors?.msg}</p>
+                <p>{activeUserErr.errormsg}</p>
+                {/* Username */}
                 <label>
                     Username:
                     <input
@@ -83,8 +91,10 @@ export const LoginForm = ({ submitFunction }) => {
                         onChange={updateActiveUserData}
                     />
                 </label>
-                <p> {activeUserErr.validationErrors?.username} </p>
+                <p> {activeUserErr?.username?.messages} </p>
                 <p> {formErrors?.username} </p>
+
+                {/* Password */}
                 <label>
                     Password:
                     <input
@@ -94,7 +104,7 @@ export const LoginForm = ({ submitFunction }) => {
                         onChange={updateActiveUserData}
                     />
                 </label>
-                <p> {activeUserErr.validationErrors?.password} </p>
+                <p> {activeUserErr?.password?.messages} </p>
                 <p> {formErrors?.password} </p>
                 <button
                     type="submit"

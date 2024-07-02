@@ -11,6 +11,7 @@ export const UserDisplay = () => {
 
   const navigate = useNavigate();
 
+  // Fetch user by username in params
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -29,6 +30,7 @@ export const UserDisplay = () => {
     fetchUser();
   }, [username, user.friends]);
 
+  // Handle add friend
   const handleAddFriend = async () => {
     try {
       await addFriend(user._id, profileUser._id);
@@ -40,7 +42,9 @@ export const UserDisplay = () => {
 
   return (
     <div className="user-profile">
+      {/* Return home link */}
       <button className="home-button" onClick={() => navigate('/dashboard')}>Home</button>
+      {/* If there is a user */}
       {profileUser ? (
         <>
           <h1>{profileUser.username}</h1>
@@ -56,9 +60,11 @@ export const UserDisplay = () => {
             </Link>
           )}
         </>
-      ) : (
-        <p>Loading...</p>
-      )}
+      )
+        // Else display a loading display
+        : (
+          <p>Loading...</p>
+        )}
     </div>
   );
 }

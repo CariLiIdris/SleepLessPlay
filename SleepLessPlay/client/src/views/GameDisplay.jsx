@@ -7,6 +7,7 @@ export const GameDisplay = () => {
   const [game, setGame] = useState([]);
   const { id } = useParams();
 
+  // Get game by id
   useEffect(() => {
     getGameByID(id)
       .then(res => setGame(res))
@@ -15,10 +16,13 @@ export const GameDisplay = () => {
 
   return (
     <div className="gameContainer">
+      {/* Return link */}
       <Link to={'/games'} className="backLink">Return</Link>
+
       <div className="game">
         <h2>{game.name}</h2>
         <p>{game.description}</p>
+        {/* iFrame to display games */}
         <iframe
           src={game.url}
           width="100%"

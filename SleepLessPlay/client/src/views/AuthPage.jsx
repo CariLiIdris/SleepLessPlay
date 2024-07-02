@@ -1,5 +1,6 @@
 import axios from "axios";
 
+// Auth page from chat engine
 export const AuthPage = (props) => {
 
   const submitHandler = (e) => {

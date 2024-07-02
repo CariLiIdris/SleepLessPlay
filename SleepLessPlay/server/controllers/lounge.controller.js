@@ -2,6 +2,7 @@ import Lounge from "../models/lounge.model.js";
 import jwt from 'jsonwebtoken'
 import User from "../models/user.model.js";
 
+// C
 export const createLounge = async (req, res) => {
     try {
         const token = req.cookies.userToken;
@@ -160,6 +161,7 @@ export const deleteLoungeByID = async (req, res, next) => {
     }
 }
 
+// Join lounge
 export const joinLounge = async (req, res, next) => {
     const { loungeId } = req.params;
     const token = req.cookies.userToken;
