@@ -9,13 +9,17 @@ import profile from '../assets/images/profile.png'
 import { userContext } from "../context/userContext"
 import { useContext, useEffect, useState } from "react"
 import { getAllGames } from "../services/game.services"
-import { getAllLounges, joinLounge } from "../services/lounge.services"
+import { getAllLounges } from "../services/lounge.services"
+import axios from "axios"
+import '../css/Dashboard.css'
 
 export const Dashboard = () => {
     const { user } = useContext(userContext)
     const id = window.localStorage.getItem('Logged in user id')
     const [games, setGames] = useState([]);
     const [lounges, setLounges] = useState([]);
+    const [news, setNews] = useState([]);
+    const [activeIndex, setActiveIndex] = useState(0);
 
     const navigate = useNavigate();
 
@@ -28,6 +32,25 @@ export const Dashboard = () => {
             .then(setLounges)
             .catch(console.log);
     }, [id])
+
+    // Get gaming news
+    useEffect(() => {
+        axios.get('http://localhost:8002/news')
+            .then((res) => {
+                setNews(res.data.slice(0, 3));
+            })
+            .catch((error) => {
+                console.error("Error fetching news", error);
+            });
+    }, []);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setActiveIndex((prevIndex) => (prevIndex + 1) % news.length);
+        }, 6000);
+
+        return () => clearInterval(interval);
+    }, [news]);
 
     // const joinLoungeFunction = (loungeId) => {
     //     joinLounge(loungeId)
@@ -102,8 +125,17 @@ export const Dashboard = () => {
                             </div>
                         </div>
 
-                        <div className="news">
-                            <p>News Coming Soon!!!!</p>
+                        <div className="newsCarousel">
+                            {news.map((item, index) => (
+                                <div className={`newsItem ${index === activeIndex ? 'active' : ''}`} key={item.id}>
+                                    <img src={item.thumbnail} alt={item.title} />
+                                    <div className="newsContent">
+                                        <h3>{item.title}</h3>
+                                        <p>{item.description}</p>
+                                        <Link to="/news" className="newsBttn">View All</Link> | <Link to={`/news-page/${item.id}`} className="newsBttn">See More</Link>
+                                    </div>
+                                </div>
+                            ))}
                         </div>
 
                         <div className="leaderboards">

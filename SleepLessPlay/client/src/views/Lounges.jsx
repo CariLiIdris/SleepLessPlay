@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { getAllLounges } from "../services/lounge.services";
 import { createPost, getAllPostsByLounge } from "../services/post.services";
 import { userContext } from '../context/userContext';
+import '../css/Loungepage.css'
 
 export const Lounges = () => {
   const [allLounges, setAllLounges] = useState([])

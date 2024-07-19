@@ -1,0 +1,110 @@
+/* Navbar Style */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-image: url("../src/assets/images/navBackground.png");
+}
+.navbar input {
+  background-color: rgba(255, 255, 255, 0.163);
+  padding: 4px;
+  border-radius: 5px;
+}
+.searchLabel {
+  color: white;
+}
+.searchBttn {
+  background-color: gray;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 5px;
+}
+
+.actionLinks {
+  display: flex;
+  gap: 25px;
+}
+
+.navSearch {
+  display: flex;
+}
+
+.exploreBttn,
+.loginBttn,
+.logoutBttn {
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 0.9em;
+  background-color: white;
+}
+
+.exploreBttn a {
+  color: #43ff3c;
+  text-decoration: none;
+}
+.exploreBttn {
+  color: #43ff3c;
+  border: 2px solid #43ff3c;
+}
+
+.logoutBttn a {
+  color: #ea5351;
+  text-decoration: none;
+}
+.logoutBttn {
+  color: #ea5351;
+  border: 2px solid #ea5351;
+}
+
+.loginBttn a {
+  color: #ffc500;
+  text-decoration: none;
+}
+.loginBttn {
+  color: #ffc500;
+  border: 2px solid #ffc500;
+}
+
+/* NavLogo Style */
+.navLogo {
+  width: 5%;
+  margin-right: 45px;
+}
+
+/* Dropdown Style */
+.dropdown {
+  position: absolute;
+  top: 100px;
+  left: 15px;
+  width: 300px;
+  max-height: 400px;
+  background-color: rgba(0, 0, 0, 0.9);
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow-y: auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+.dropdown-category {
+  padding: 10px;
+}
+
+.dropdown-category h4 {
+  margin: 0 0 10px;
+  color: #ffc500;
+  font-family: "Bitcell";
+}
+
+.dropdown-category a {
+  display: block;
+  color: white;
+  padding: 5px 0;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-category a:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}

@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { Link } from "react-router-dom"
+import '../css/Home.css'
 
 export const Home = () => {
 

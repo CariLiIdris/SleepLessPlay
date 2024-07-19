@@ -1,0 +1,22 @@
+/* Home Page Style */
+.ctaSignUp {
+  text-align: center;
+  background-image: url("../src/assets/images/startBackground.png");
+  padding: 10%;
+}
+
+.ctaSignUp h1 {
+  color: white;
+  padding: 15px;
+}
+.ctaSignUp button {
+  padding: 10px 20px;
+  background-color: #ea5351;
+  border: 2px solid #d53431;
+  border-radius: 5px;
+}
+.ctaSignUp button a {
+  color: white;
+  text-decoration: none;
+  font-size: 1.3em;
+}

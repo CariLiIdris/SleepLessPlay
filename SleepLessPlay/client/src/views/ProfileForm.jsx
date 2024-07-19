@@ -3,6 +3,8 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { getUserByID } from "../services/user.services"
 import { userContext } from "../context/userContext"
 import { Link } from "react-router-dom"
+import '../css/Profileform.css'
+import CustomDropdown from "../components/CustomDropdown"
 
 export const ProfileForm = ({ submitFunction }) => {
     const { id } = useParams()
@@ -14,7 +16,7 @@ export const ProfileForm = ({ submitFunction }) => {
         lName: '',
         email: '',
         bio: '',
-        // avatar: ''
+        avatar: ''
     })
 
     // Server Errors
@@ -107,7 +109,7 @@ export const ProfileForm = ({ submitFunction }) => {
 
         submitFunction(userData)
             .then(res => {
-                console.log('PF Submit UserData: ', userData, 'Res: ', res)
+                // console.log('PF Submit UserData: ', userData, 'Res: ', res)
                 storeIdInLocalStorage(userData._id)
                 setUser(res)
                 navigate(`/user/${userData.username}`)
@@ -120,14 +122,14 @@ export const ProfileForm = ({ submitFunction }) => {
         <div className="profileFormContainer">
             <form className="profileForm" onSubmit={submitHandler}>
                 {/* Profile Picture Input */}
-                {/* <label>
-                    User Avatar:
-                    <input
-                        type="file"
-                        className="avatar"
-                        onChange={updateUserData}
+                <label>
+                    User Icon:
+                    <CustomDropdown
+                        selectedValue={userData.avatar}
+                        onChange={(value) => setUserData({ ...userData, avatar: value })}
                     />
-                </label> */}
+                </label>
+
                 {/* Username Input */}
                 <label>
                     Username:

@@ -7,6 +7,7 @@ import { Link } from "react-router-dom"
 import { deleteUserByID } from '../services/user.services'
 import Cookies from 'js-cookie'
 import editIcon from '../assets/images/edit.png'
+import '../css/Userprofile.css'
 
 export const UserProfile = () => {
     const { user } = useContext(userContext)
@@ -34,7 +35,7 @@ export const UserProfile = () => {
 
                 <div className="leftSide">
                     <div className="profileHeader">
-                        <img src={user.userIcon} alt="COMING SOON" className="profileImage" />
+                        <img src={user.avatar} alt="User Avatar" className="profileImage" />
                         <div className="userDetails">
                             <p className="username">{user.username}</p>
                             <p className="userRole">Titles coming soon</p>

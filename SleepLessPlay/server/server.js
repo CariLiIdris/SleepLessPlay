@@ -29,6 +29,28 @@ app.use('/lounges', loungeRouter);
 app.use('/posts', postRouter);
 app.use('/games', gameRouter);
 
+app.get('/news', async (req, res) => {
+    try {
+        const response = await axios.get('https://gamerpower.p.rapidapi.com/api/giveaways', {
+            headers: {
+                'X-RapidAPI-Host': 'gamerpower.p.rapidapi.com',
+                'X-RapidAPI-Key': process.env.RAPID_API_KEY,
+            },
+        });
+
+        // // Log the response to check if it's JSON
+        // console.log('Response Headers:', response.headers);
+        // console.log('Response Data:', response.data);
+
+        // Send JSON response
+        res.json(response.data);
+        // console.log(response.data)
+    } catch (error) {
+        console.error('Error:', error);
+        res.status(500).send(error.toString());
+    }
+});
+
 // ChatEngine Authenticate
 app.post('/authenticate', async (req, res) => {
     const { username } = req.body;

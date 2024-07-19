@@ -21,6 +21,7 @@ import {
   deletePostByID
 } from "../services/post.services";
 import moment from 'moment'
+import '../css/Loungedisplay.css'
 
 export const LoungeDisplay = () => {
   const { id } = useParams();

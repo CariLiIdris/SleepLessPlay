@@ -9,6 +9,7 @@ import { getAllGames } from '../services/game.services'
 import { getAllLounges } from '../services/lounge.services'
 import { getAllUsers } from '../services/user.services'
 import { debounce } from 'lodash'
+import '../css/Navbar.css'
 
 // eslint-disable-next-line react/prop-types
 export const Navbar = ({ submitFunction }) => {

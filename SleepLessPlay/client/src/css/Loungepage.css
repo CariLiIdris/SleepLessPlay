@@ -1,0 +1,161 @@
+/* Lounge Page Styles */
+.loungeContainer {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.pageTitle {
+  text-align: center;
+  font-family: "Bitcell", sans-serif;
+  color: #ffc500;
+  margin-bottom: 20px;
+}
+
+.createLoungeButton {
+  display: block;
+  margin: 0 auto 20px;
+  padding: 10px 20px;
+  background-color: #007080;
+  color: white;
+  text-align: center;
+  border-radius: 5px;
+  text-decoration: none;
+  font-family: "Bitcell", sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.createLoungeButton:hover {
+  background-color: white;
+  color: #37c9de;
+  border: 2px solid #007080;
+}
+
+.loungePostForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.loungePostForm label {
+  margin-bottom: 10px;
+  color: #ffc500;
+  font-family: "Bitcell", sans-serif;
+}
+
+.loungePostForm select,
+.loungePostForm textarea {
+  width: 100%;
+  max-width: 600px;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 2px solid #ffc500;
+  border-radius: 5px;
+  background-color: #f8f8f8;
+  color: #333;
+  font-family: "Bitcell", sans-serif;
+}
+
+.loungePostForm .submitBttn {
+  padding: 10px 20px;
+  background-color: #43ff3c;
+  color: #2d2d2d;
+  border: none;
+  border-radius: 5px;
+  font-family: "Bitcell", sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.loungePostForm .submitBttn:hover {
+  background-color: #2d2d2d;
+  color: #43ff3c;
+}
+
+.loungeContent {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loungeLeft,
+.loungeRight {
+  width: 48%;
+}
+
+.sectionTitle {
+  font-family: "Bitcell", sans-serif;
+  color: #ffc500;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.userLoungeContainer,
+.publicLoungeContainer {
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.loungeCard {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #ddefff;
+}
+
+.loungeCardTitle {
+  font-family: "Bitcell", sans-serif;
+  color: #ffc500;
+}
+.loungeCardOwner {
+  color: #007080;
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+.loungeCardDescription {
+  font-family: "Bitcell", sans-serif;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.editLink,
+.seeMoreLink {
+  display: block;
+  text-align: right;
+  color: #43ff3c;
+  text-decoration: none;
+  font-family: "Bitcell", sans-serif;
+  margin-top: 10px;
+  transition: color 0.3s;
+}
+
+.editLink:hover,
+.seeMoreLink:hover {
+  color: #2d2d2d;
+}
+
+.postCard {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.postTitle {
+  font-family: "Bitcell", sans-serif;
+  color: #ea5351;
+  margin-bottom: 5px;
+}
+
+.postAuthor {
+  color: #EA5351;
+  margin-right: 10px;
+}

@@ -4,6 +4,7 @@ import {
     useNavigate
 } from 'react-router-dom'
 import { userContext } from "../context/userContext"
+import '../css/Userform.css'
 
 export const UserForm = ({ submitFunction }) => {
     const { setUser, storeIdInLocalStorage } = useContext(userContext)

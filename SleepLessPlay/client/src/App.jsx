@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import './App.css'
 import {
   Route,
@@ -29,6 +30,8 @@ import { GameForm } from './views/GameForm'
 import { GameDisplay } from './views/GameDisplay'
 import { UserDisplay } from './views/UserDisplay'
 import { Friends } from './views/Friends'
+import { NewsDisplay } from './views/NewsDisplay'
+import { ProtectedRoutes } from './utils/ProtectedRoutes'
 
 function App() {
 
@@ -58,57 +61,6 @@ function App() {
             submitFunction={login}
           />} />
 
-        {/* Dashboard */}
-        <Route
-          path='/dashboard'
-          element={<Dashboard />}
-        />
-
-        {/* Update user */}
-        <Route
-          path='/user/:id/update'
-          element={<ProfileForm
-            submitFunction={updateUserByID} />}
-        />
-
-        {/* User profile */}
-        <Route
-          path='/user/:username'
-          element={<UserProfile />}
-        />
-
-        {/* Lounges */}
-        <Route
-          path='/lounges'
-          element={<Lounges />}
-        />
-
-        {/* Create lounge */}
-        <Route
-          path='/lounge/create'
-          element={<LoungeForm
-            submitFunction={createLounge} />}
-        />
-
-        {/* lounge display */}
-        <Route
-          path='/lounges/:id'
-          element={<LoungeDisplay />}
-        />
-
-        {/* Edit lounge */}
-        <Route
-          path='/lounge/:id/edit'
-          element={<LoungeForm
-            submitFunction={updateLoungeByID} />}
-        />
-
-        {/* Messages (chat engine.io) */}
-        <Route
-          path='/messages'
-          element={<Messages />}
-        />
-
         {/* Open source games */}
         <Route
           path='/games'
@@ -133,15 +85,67 @@ function App() {
           element={<GameDisplay />}
         />
 
-        {/* User profile display */}
+        {/* news */}
         <Route
-          path='/users/username/:username'
-          element={<UserDisplay />} />
+          path='/news'
+          element={<NewsDisplay />}
+        />
 
-        {/* Friends display (WIP) */}
-        <Route
-          path='/friends'
-          element={<Friends />} />
+        {/* Protected Routes HERE */}
+        <Route element={<ProtectedRoutes />}>
+
+          {/* Dashboard */}
+          <Route
+            path='/dashboard'
+            element={<Dashboard />}
+          />
+
+          {/* Update user */}
+          <Route
+            path='/user/:id/update'
+            element={<ProfileForm
+              submitFunction={updateUserByID} />}
+          />
+
+          {/* User profile */}
+          <Route
+            path='/user/:username'
+            element={<UserProfile />}
+          />
+
+          {/* Lounges */}
+          <Route
+            path='/lounges'
+            element={<Lounges />}
+          />
+
+          {/* Create lounge */}
+          <Route
+            path='/lounge/create'
+            element={<LoungeForm
+              submitFunction={createLounge} />}
+          />
+
+          {/* lounge display */}
+          <Route
+            path='/lounges/:id'
+            element={<LoungeDisplay />}
+          />
+
+          {/* Edit lounge */}
+          <Route
+            path='/lounge/:id/edit'
+            element={<LoungeForm
+              submitFunction={updateLoungeByID} />}
+          />
+
+          {/* Messages (chat engine.io) */}
+          <Route
+            path='/messages'
+            element={<Messages />}
+          />
+        </Route>
+
       </Routes>
     </>
   )

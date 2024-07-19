@@ -1,0 +1,220 @@
+/* Lounge Display Styles */
+.loungeDisplay {
+  position: relative;
+  background-color: #f8f8f8;
+  border: 2px solid #ffc500;
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
+  max-width: 600px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.loungePostFormDisplay .submitBttn:disabled
+{
+  background-color: #444;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.loungeDisplay .closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: #ea5351;
+  font-size: 1.5em;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.loungeDisplay .closeButton:hover {
+  color: #2d2d2d;
+}
+
+.loungeDisplay .loungeName {
+  font-size: 1.8em;
+  color: #ffc500;
+  font-family: "Bitcell", sans-serif;
+  margin-bottom: 10px;
+}
+
+.loungeDisplay .loungeDescription {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.loungeDisplay .loungeActions {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.loungeDisplay .joinLoungeButton,
+.loungeDisplay .deleteLoungeButton {
+  padding: 10px 20px;
+  font-size: 1em;
+  font-family: "Bitcell";
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.loungeDisplay .joinLoungeButton {
+  background-color: #43ff3c;
+  color: #2d2d2d;
+}
+
+.loungeDisplay .joinLoungeButton:hover {
+  background-color: #2d2d2d;
+  color: #43ff3c;
+}
+
+.loungeDisplay .deleteLoungeButton {
+  background-color: #ea5351;
+  color: #fff;
+}
+
+.loungeDisplay .deleteLoungeButton:hover {
+  background-color: #2d2d2d;
+  color: #ea5351;
+}
+
+.loungeDisplay .loungePosts {
+  margin-top: 20px;
+}
+
+.loungePosts .post {
+  background-color: #ddefff;
+  border: 2px solid #37c9de;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: left;
+}
+
+.loungePosts .post .postContent {
+  font-size: 1em;
+  color: #333;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.loungePosts .post .postTime {
+  font-size: 0.8em;
+  color: #007080;
+  margin-left: 10px;
+}
+
+.loungePosts .post .postAuthor {
+  font-size: 1em;
+  color: #37c9de;
+  margin-top: 5px;
+}
+
+.loungePosts .post .postActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.loungePosts .post .postActions button,
+.submitBttn,
+.cancelBttn
+{
+  padding: 5px 10px;
+  font-size: 0.8em;
+  font-family: "Bitcell";
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.loungePosts .post .postActions button.editBttn,
+.submitBttn
+{
+  background-color: #ffc500;
+  color: #2d2d2d;
+}
+
+.loungePosts .post .postActions button.editBttn:hover,
+.submitBttn:hover
+{
+  background-color: #2d2d2d;
+  color: #ffc500;
+}
+
+.loungePosts .post .postActions button.deleteBttn,
+.cancelBttn
+{
+  background-color: #ea5351;
+  color: #fff;
+}
+
+.loungePosts .post .postActions button.deleteBttn:hover,
+.cancelBttn:hover
+{
+  background-color: #2d2d2d;
+  color: #ea5351;
+}
+
+.loungePostFormDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #ddefff;
+  border-top: 2px solid #ffc500;
+  border-bottom: 2px solid #ffc500;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.loungePostFormDisplay label {
+  margin-bottom: 10px;
+  color: #ffc500;
+  font-family: "Bitcell", sans-serif;
+}
+
+.loungePostFormDisplay select,
+.loungePostFormDisplay textarea {
+  width: 97%;
+  max-width: 600px;
+  padding: 10px;
+  margin: 5px 0px;
+  border: 2px solid #ffc500;
+  border-radius: 5px;
+  background-color: #006f8030;
+  color: #333;
+  font-family: "Bitcell", sans-serif;
+}
+
+.loungePostFormDisplay .submitBttn {
+  padding: 10px 20px;
+  background-color: #43ff3c;
+  color: #2d2d2d;
+  border: none;
+  border-radius: 5px;
+  font-family: "Bitcell", sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.loungePostFormDisplay .submitBttn:hover {
+  background-color: #2d2d2d;
+  color: #43ff3c;
+}
+
+.loungePostFormDisplay p {
+  color: #ea5351;
+  margin-top: -5px;
+  padding: 5px 0px;
+}

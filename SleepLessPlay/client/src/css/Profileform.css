@@ -1,0 +1,156 @@
+/* ProfileForm Styles */
+.profileFormContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3%;
+  background-size: cover;
+}
+
+.profileForm {
+  background-color: rgba(34, 34, 34, 0.85);
+  border: 2px solid #ea5351;
+  border-radius: 10px;
+  padding: 5%;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.5);
+  max-width: 400px;
+  width: 100%;
+}
+
+.profileForm label {
+  display: block;
+  color: #ffc500;
+  margin-bottom: 10px;
+  font-size: 1.1em;
+  font-family: "Bitcell";
+}
+
+.profileForm input,
+.profileForm textarea {
+  width: 98%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1em;
+  font-family: "Bitcell";
+  outline: none;
+}
+
+.profileForm input::placeholder,
+.profileForm textarea::placeholder {
+  color: #888;
+}
+
+.profileForm textarea {
+  resize: none;
+  overflow-y: auto;
+}
+
+.profileForm p {
+  color: #ea5351;
+  font-size: 0.9em;
+  margin-bottom: 10px;
+}
+
+.profileForm button.submitBttn {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #43ff3c;
+  border-radius: 5px;
+  background-color: #43ff3c;
+  color: #2d2d2d;
+  font-size: 1.1em;
+  font-family: "Bitcell";
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.profileForm button.submitBttn:hover {
+  background-color: #2d2d2d;
+  color: #43ff3c;
+}
+
+.profileForm .submitBttn:disabled
+{
+  background-color: #444;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.profileForm .cancelLink {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #ffc500;
+  text-decoration: none;
+  font-size: 1.1em;
+  font-family: "Bitcell";
+  transition: color 0.3s;
+}
+
+.profileForm .cancelLink:hover {
+  color: #a16b00;
+}
+
+.custom-dropdown {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.dropdown-header {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  font-size: 1em;
+  font-family: "Bitcell";
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-header img {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.dropdown-list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: rgba(34, 34, 34, 0.85);
+  z-index: 10;
+}
+
+.dropdown-option {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.dropdown-option img {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}
+
+.dropdown-option:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.selected-option img {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+}

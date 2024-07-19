@@ -44,7 +44,10 @@ const UserSchema = new Schema({
   friends: [{
     type: Schema.Types.ObjectId,
     ref: 'User'
-  }]
+  }],
+  avatar: {
+    type: String
+  }
 }, { timestamps: true });
 
 // Compare & Confirm passwords
